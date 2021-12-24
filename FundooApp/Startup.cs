@@ -2,21 +2,14 @@ using BuisnessLayer.Instance;
 using BuisnessLayer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Repository.Context;
-using Repository.Instance;
+using Repository.Interfaces;
 using Repository.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FundooApp
 {
@@ -34,8 +27,8 @@ namespace FundooApp
         {
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
-            services.AddDbContext<UserContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserDB"]));
-            services.AddControllers().AddNewtonsoftJson(); ;
+            services.AddDbContext<UserContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserDataBase"]));
+            services.AddControllers().AddNewtonsoftJson(); 
 
             services.AddSwaggerGen(c =>
             {

@@ -9,6 +9,12 @@ namespace Repository.Context
         {
 
         }
+        /// <summary>
+        /// Gets or sets the user table.
+        /// </summary>
+        /// <value>
+        /// The user table.
+        /// </value>
         public DbSet<User> UserTable
         {
             get;set;

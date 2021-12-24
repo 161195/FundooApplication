@@ -1,18 +1,25 @@
-﻿using BuisnessLayer.Instance;
+﻿using BuisnessLayer.Interfaces;
 using CommonLayer.Model;
-using Repository.Instance;
+using Repository.Entity;
+using Repository.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace BuisnessLayer.Services
 {
-    public class UserBL : IUserBL
+    public class UserBL : IUserBL      //buisness logic     
     {
         IUserRL UserRL;
-        public UserBL(IUserRL userRL)
+        public UserBL(IUserRL userRL)  
         {
             this.UserRL = userRL;
         }
-        public bool Registration(UserRegistration user)
+
+        public IEnumerable<User> GetUserRegistrations()       //to get all registered data
+        {
+            return this.UserRL.GetUserRegistrations();
+        }     
+        public bool Registration(UserRegistration user)       //to register or post new data
         {
             // throw new NotImplementedException();
             try
@@ -24,7 +31,19 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        public LoginResponse GetLogin(UserLogin User1)   //to post emailid and password-login part
+        {
+            try
+            {
+                return this.UserRL.GetLogin(User1);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
-       
+
+
     }
 }

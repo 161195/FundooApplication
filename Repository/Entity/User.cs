@@ -10,12 +10,19 @@ namespace Repository.Entity
 {
     public class User
     {
-        [Key]
+        /// <summary>
+        /// defining ID as a primary key to enter into database.
+        /// </summary>
+        /// <value>
+        /// key=Id
+        /// </value>
+        [Key]                  
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id
+        public long Id                  
         {
             get; set;
         }
+        //feeding this attributes into UserTable.
         [Required(ErrorMessage = "First Name is required")]
         [DataType(DataType.Text)]
         [Display(Name = "FirstName")]
@@ -38,6 +45,6 @@ namespace Repository.Entity
 
         [DataType(DataType.DateTime)]
         public DateTime? Modified { get; set; }
-        //Adding ? to make field nullable
+        //Adding ? to make field nullable 
     }
 }
