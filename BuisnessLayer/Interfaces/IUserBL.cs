@@ -9,5 +9,6 @@ namespace BuisnessLayer.Interfaces
         public bool Registration(UserRegistration user);   //to post new registration data        
         IEnumerable<User> GetUserRegistrations();   //to get all registered data
         public LoginResponse GetLogin(UserLogin User1);  //to post login
+        public bool UserDelete(deleteOperation user);   //to delete registered data
     }
 }

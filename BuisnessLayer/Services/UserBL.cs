@@ -20,8 +20,7 @@ namespace BuisnessLayer.Services
             return this.UserRL.GetUserRegistrations();
         }     
         public bool Registration(UserRegistration user)       //to register or post new data
-        {
-            // throw new NotImplementedException();
+        {         
             try
             {
                 return this.UserRL.Registration(user);
@@ -42,8 +41,17 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        public bool UserDelete(deleteOperation user)  //to delete registered data
+        {
+            try
+            {
+                return this.UserRL.UserDelete(user);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
-
-
+        }
     }
 }

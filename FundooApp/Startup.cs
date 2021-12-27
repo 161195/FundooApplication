@@ -1,4 +1,4 @@
-using BuisnessLayer.Instance;
+using BuisnessLayer.Interfaces;
 using BuisnessLayer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,6 +51,8 @@ namespace FundooApp
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

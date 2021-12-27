@@ -1,4 +1,4 @@
-﻿using BuisnessLayer.Instance;
+﻿using BuisnessLayer.Interfaces;
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,8 +15,7 @@ namespace FundooApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
-   
+  
     public class UserController : ControllerBase
     {
         //private readonly IConfiguration _configuration;
@@ -30,8 +29,6 @@ namespace FundooApp.Controllers
         {
             this.BL = BL;
         }
-
-
         [HttpPost]                                      //to add new registration
         public IActionResult UserRegistration(UserRegistration user)
         {
@@ -71,25 +68,42 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
 
-        }
-       
+        }     
         [HttpPost("Login")]                             //post login Details
         public IActionResult GetLogin(UserLogin user1)
-        {
+        {          
             try
             {
                 LoginResponse result = this.BL.GetLogin(user1);
                 if (result.EmailId == null)
                 {
                     return BadRequest(new { Success = false, message = "Email or Password Not Found" });
-                }
-                return Ok(new { Success = true, message = "Login Successful", data = result });
+                }            
+                return Ok(new { Success = true, message = "Login Successful", UserLoginInfo = result});
             }
             catch (Exception e)
             {
                 return this.BadRequest(new { Success = false, message = e.Message });
             }
         }
-
+        [HttpDelete("Delete")]                                      //to delete existing registration
+        public IActionResult UserDelete(deleteOperation user)
+        {
+            try
+            {
+                if (this.BL.UserDelete(user))
+                {
+                    return this.Ok(new { Success = true, message = "Deleted" });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No Such Registration Found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { success = false, message = ex.InnerException });
+            }
+        }
     }
 }
