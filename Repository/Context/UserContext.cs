@@ -19,5 +19,9 @@ namespace Repository.Context
         {
             get;set;
         }
+        public DbSet<Note> NoteTable
+        {
+            get; set;
+        }
     }
 }
