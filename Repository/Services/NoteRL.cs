@@ -13,7 +13,7 @@ namespace Repository.Services
         readonly UserContext context;
         public NoteRL(UserContext context)
         {
-            this.context = context;
+            this.context = context; 
         }
     }
 }

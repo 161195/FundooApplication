@@ -27,14 +27,22 @@ namespace FundooApp
         {
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
-            services.AddTransient<INoteBL, NoteBL>();
+            services.AddTransient<INoteBL, NoteBL>(); 
             services.AddTransient<INoteRL, NoteRL>();
             services.AddDbContext<UserContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserDataBase"]));
-            services.AddControllers().AddNewtonsoftJson(); 
-
+            services.AddControllers().AddNewtonsoftJson();      
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooApp", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Authorize using JWTtoken"
+                });
             });
         }
 

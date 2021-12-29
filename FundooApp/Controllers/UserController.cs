@@ -1,5 +1,6 @@
 ﻿using BuisnessLayer.Interfaces;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -86,6 +87,7 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { Success = false, message = e.Message });
             }
         }
+        [Authorize]
         [HttpDelete("Delete")]                                      //to delete existing registration
         public IActionResult UserDelete(deleteOperation user)
         {

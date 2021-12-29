@@ -80,10 +80,10 @@ namespace Repository.Services
                 if(ValidLogin != null)
                 {
                     token = GenerateJWTToken(ValidLogin.EmailId);
-                    loginRespo.FirstName = ValidLogin.FirstName;
-                    loginRespo.LastName = ValidLogin.LastName;
-                    loginRespo.Createdat = ValidLogin.Createdat;
-                    loginRespo.Modified = ValidLogin.Modified;
+                    //loginRespo.FirstName = ValidLogin.FirstName;
+                    //loginRespo.LastName = ValidLogin.LastName;
+                    //loginRespo.Createdat = ValidLogin.Createdat;
+                    //loginRespo.Modified = ValidLogin.Modified;
                     loginRespo.Id = ValidLogin.Id;
                     loginRespo.EmailId = ValidLogin.EmailId;
                     loginRespo.token = token;
