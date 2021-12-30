@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Model;
+using Repository.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace BuisnessLayer.Interfaces
     public interface INoteBL
     {
         public bool Registration(NoteRegistration user);
+        public IEnumerable<Note> GetNoteRegistrations();
     }
 }

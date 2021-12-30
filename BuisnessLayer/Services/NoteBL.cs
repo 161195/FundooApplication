@@ -1,5 +1,6 @@
 ﻿using BuisnessLayer.Interfaces;
 using CommonLayer.Model;
+using Repository.Entity;
 using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,11 @@ namespace BuisnessLayer.Services
             {
                 throw;
             }
-
+        }
+        public IEnumerable<Note> GetNoteRegistrations()
+        {
+            return this.NoteRL.GetNoteRegistrations();
         }
     }
+    
 }

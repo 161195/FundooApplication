@@ -37,13 +37,13 @@ namespace FundooApp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooApp", Version = "v1" });
                 var jwtSecurityScheme = new OpenApiSecurityScheme
-            {
-                Scheme = "bearer",
-                BearerFormat = "JWT",
-                Name = "JWT Authentication",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.Http,
-                Description = "enter JWT Bearer token on textbox below!",
+                {
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Name = "JWT Authentication",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Description = "enter JWT Bearer token on textbox below!",
 
                     Reference = new OpenApiReference
                     {
@@ -58,7 +58,7 @@ namespace FundooApp
                  { jwtSecurityScheme, Array.Empty<string>() }
                 });
 
-            });
+            });    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,10 +75,10 @@ namespace FundooApp
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
 
+            app.UseAuthorization();
+          
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

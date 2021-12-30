@@ -17,6 +17,11 @@ namespace Repository.Services
         {
             this.context = context; 
         }
+        /// <summary>
+        /// New Note Registrations for the specified userID.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
         public bool Registration(NoteRegistration user)
         {
             try
@@ -51,6 +56,10 @@ namespace Repository.Services
             {
                 throw;
             }
+        }
+        public IEnumerable<Note> GetNoteRegistrations()
+        {
+            return context.NoteTable;
         }
     }
 }

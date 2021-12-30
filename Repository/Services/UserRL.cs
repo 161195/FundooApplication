@@ -130,7 +130,7 @@ namespace Repository.Services
                     User DeleteUser = new User();
                     DeleteUser.FirstName = ValidUser.FirstName;
                     DeleteUser.LastName = ValidUser.LastName;
-                    DeleteUser.Password = ValidUser.Password;
+                    DeleteUser.Password = encryptpass(ValidUser.Password);
                     DeleteUser.EmailId = ValidUser.EmailId;
                     DeleteUser.Createdat = DateTime.Now;
                     DeleteUser.Modified = DateTime.Now;
@@ -153,6 +153,11 @@ namespace Repository.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Encryptpasses the specified password.
+        /// </summary>
+        /// <param name="Password">The password.</param>
+        /// <returns></returns>
         public string encryptpass(string Password)
         {
             string msg = "";
@@ -161,6 +166,11 @@ namespace Repository.Services
             msg = Convert.ToBase64String(encode);
             return msg;
         }
+        /// <summary>
+        /// Decryptpasses the specified encryptpwd.
+        /// </summary>
+        /// <param name="encryptpwd">The encryptpwd.</param>
+        /// <returns></returns>
         private string Decryptpass(string encryptpwd)
         {
             string decryptpwd = string.Empty;

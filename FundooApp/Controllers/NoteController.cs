@@ -20,7 +20,7 @@ namespace FundooApp.Controllers
             this.BL = BL;
         }
         //[Authorize]
-        [HttpPost]                                      //to add new registration
+        [HttpPost]                                      //to add new note registration
         public IActionResult UserRegistration(NoteRegistration user)
         {
             try
@@ -38,6 +38,27 @@ namespace FundooApp.Controllers
             {
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
+        }
+        [HttpGet("GetAllNoteDetails")]              //get all note registered data
+        public IActionResult GetAllUserDetails()
+        {
+            try
+            {
+                var noteDetailsList = this.BL.GetNoteRegistrations();
+                if (noteDetailsList != null)
+                {
+                    return this.Ok(new { Success = true, userlist = noteDetailsList });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No records found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { success = false, message = ex.InnerException });
+            }
+
         }
     }   
 }
