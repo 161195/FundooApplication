@@ -10,7 +10,7 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20211229073625_Initial")]
+    [Migration("20211230085725_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,16 +23,20 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Repository.Entity.Note", b =>
                 {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
+                    b.Property<long>("NoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
 
                     b.Property<string>("Color")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsArchive")
@@ -45,25 +49,33 @@ namespace Repository.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("Reminder")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("NoteId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("NoteTable");
                 });
 
             modelBuilder.Entity("Repository.Entity.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
@@ -91,7 +103,7 @@ namespace Repository.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("UserTable");
                 });
@@ -99,12 +111,17 @@ namespace Repository.Migrations
             modelBuilder.Entity("Repository.Entity.Note", b =>
                 {
                     b.HasOne("Repository.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithMany("Note")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repository.Entity.User", b =>
+                {
+                    b.Navigation("Note");
                 });
 #pragma warning restore 612, 618
         }

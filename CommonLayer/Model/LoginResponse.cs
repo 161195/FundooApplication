@@ -9,7 +9,7 @@ namespace CommonLayer.Model
 {
     public class LoginResponse
     {
-        public long Id
+        public long UserId
         {
             get; set;
         }

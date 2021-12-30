@@ -38,10 +38,11 @@ namespace Repository.Services
         {
             try
             {
+
                 User newUser = new User();
                 newUser.FirstName = user.FirstName;
                 newUser.LastName = user.LastName;
-                newUser.Password = user.Password;
+                newUser.Password = encryptpass(user.Password);
                 newUser.EmailId = user.EmailId;
                 newUser.Createdat = DateTime.Now;
                 newUser.Modified = DateTime.Now;
@@ -71,29 +72,30 @@ namespace Repository.Services
         /// <returns></returns>
         /// <exception cref="System.Exception"></exception>
         public LoginResponse GetLogin(UserLogin User1)  
-        {
-            LoginResponse loginRespo = new LoginResponse();
-            string token = "";
+        {           
             try
             {
-                User ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
-                if(ValidLogin != null)
+                //User ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
+                User ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId).FirstOrDefault();
+                if (Decryptpass(ValidLogin.Password) == User1.Password)
                 {
-                    token = GenerateJWTToken(ValidLogin.EmailId);
-                    //loginRespo.FirstName = ValidLogin.FirstName;
-                    //loginRespo.LastName = ValidLogin.LastName;
-                    //loginRespo.Createdat = ValidLogin.Createdat;
-                    //loginRespo.Modified = ValidLogin.Modified;
-                    loginRespo.Id = ValidLogin.Id;
+                    string token = "";              
+                    LoginResponse loginRespo = new LoginResponse();
+                    token = GenerateJWTToken(ValidLogin.EmailId);                   
+                    loginRespo.UserId = ValidLogin.UserId;
                     loginRespo.EmailId = ValidLogin.EmailId;
                     loginRespo.token = token;
+                    return loginRespo;
+                }
+                else
+                {
+                    return null;
                 }
             }
             catch(ArgumentException ex)
             {
                 throw new Exception(ex.Message);
-            }
-            return loginRespo;
+            }          
         }
         /// <summary>
         /// created method to Generate Token
@@ -150,6 +152,26 @@ namespace Repository.Services
             {
                 throw;
             }
+        }
+        public string encryptpass(string Password)
+        {
+            string msg = "";
+            byte[] encode = new byte[Password.Length];
+            encode = Encoding.UTF8.GetBytes(Password);
+            msg = Convert.ToBase64String(encode);
+            return msg;
+        }
+        private string Decryptpass(string encryptpwd)
+        {
+            string decryptpwd = string.Empty;
+            UTF8Encoding encodepwd = new UTF8Encoding();
+            Decoder Decode = encodepwd.GetDecoder();
+            byte[] todecode_byte = Convert.FromBase64String(encryptpwd);
+            int charCount = Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
+            char[] decoded_char = new char[charCount];
+            Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
+            decryptpwd = new String(decoded_char);
+            return decryptpwd;
         }
     }    
 }

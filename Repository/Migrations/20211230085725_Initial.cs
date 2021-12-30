@@ -11,7 +11,7 @@ namespace Repository.Migrations
                 name: "UserTable",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -22,35 +22,42 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTable", x => x.Id);
+                    table.PrimaryKey("PK_UserTable", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "NoteTable",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Reminder = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NoteId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Reminder = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsArchive = table.Column<bool>(type: "bit", nullable: false),
                     IsPin = table.Column<bool>(type: "bit", nullable: false),
                     IsTrash = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NoteTable", x => x.Id);
+                    table.PrimaryKey("PK_NoteTable", x => x.NoteId);
                     table.ForeignKey(
-                        name: "FK_NoteTable_UserTable_Id",
-                        column: x => x.Id,
+                        name: "FK_NoteTable_UserTable_UserId",
+                        column: x => x.UserId,
                         principalTable: "UserTable",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NoteTable_UserId",
+                table: "NoteTable",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

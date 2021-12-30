@@ -18,7 +18,7 @@ namespace Repository.Entity
         /// </value>
         [Key]                  
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id                  
+        public long UserId                  
         {
             get; set;
         }
@@ -46,5 +46,6 @@ namespace Repository.Entity
         [DataType(DataType.DateTime)]
         public DateTime? Modified { get; set; }
         //Adding ? to make field nullable 
+        public ICollection<Note> Note { get; set; }
     }
 }
