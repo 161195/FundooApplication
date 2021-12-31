@@ -57,9 +57,52 @@ namespace Repository.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Gets the note registrations.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Note> GetNoteRegistrations()
         {
             return context.NoteTable;
+        }
+        /// <summary>
+        /// Gets the note info with ID.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public Note GetWithId(long id)
+        {
+            try
+            {
+                return this.context.NoteTable.FirstOrDefault(i => i.UserId == id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// Updates the notes.
+        /// </summary>
+        /// <param name="APerson">a person.</param>
+        /// <param name="person">The person.</param>
+        public void UpdateNotes(Note BeforeNote, Note AfterNote)
+        {
+            try
+            {
+                BeforeNote.Title = AfterNote.Title;
+                BeforeNote.Message = AfterNote.Message;
+                BeforeNote.Color = AfterNote.Color;
+                BeforeNote.Image = AfterNote.Image;
+                BeforeNote.IsArchive = AfterNote.IsArchive;
+                BeforeNote.IsPin = AfterNote.IsPin;
+                BeforeNote.IsTrash = AfterNote.IsTrash; 
+                this.context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

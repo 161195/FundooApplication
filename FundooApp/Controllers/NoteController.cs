@@ -3,6 +3,7 @@ using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +60,41 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
 
+        }
+        [HttpGet("GetWithId/{id}")]  //To get specific note for specific UserID
+        public IActionResult GetWithId(long id)
+        {
+            try
+            {
+                Note note = BL.GetWithId(id);
+                if (note == null)
+                {
+                    return BadRequest(new { Success = false, message = "No Notes With Particular Id " });
+                }
+                return Ok(new { Success = true, message = "Notes Available with Entered Id ", note });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpPut("UpdateId/{id}")]  //To update registered note 
+        public IActionResult UpdateNotes(long id, Note note)
+        {
+            try
+            {
+                Note updateNotes = BL.GetWithId(id);
+                if (updateNotes == null)
+                {
+                    return BadRequest(new { Success = false, message = "No Notes are there with this Id" });
+                }
+                BL.UpdateNotes(updateNotes, note);
+                return Ok(new { Success = true, message = "Update Sucessful" });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }   
 }

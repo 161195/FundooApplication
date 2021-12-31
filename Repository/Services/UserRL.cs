@@ -74,8 +74,7 @@ namespace Repository.Services
         public LoginResponse GetLogin(UserLogin User1)  
         {           
             try
-            {
-                //User ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
+            {              
                 User ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId).FirstOrDefault();
                 if (Decryptpass(ValidLogin.Password) == User1.Password)
                 {

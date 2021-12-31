@@ -32,6 +32,28 @@ namespace BuisnessLayer.Services
         {
             return this.NoteRL.GetNoteRegistrations();
         }
+        public Note GetWithId(long id)
+        {
+            try
+            {
+                return this.NoteRL.GetWithId(id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public void UpdateNotes(Note BeforeNote, Note AfterNote)
+        {
+            try
+            {
+                this.NoteRL.UpdateNotes(BeforeNote, AfterNote);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
     
 }

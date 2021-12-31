@@ -10,7 +10,9 @@ namespace BuisnessLayer.Interfaces
 {
     public interface INoteBL
     {
-        public bool Registration(NoteRegistration user);
-        public IEnumerable<Note> GetNoteRegistrations();
+        public bool Registration(NoteRegistration user);   //To register new note
+        public IEnumerable<Note> GetNoteRegistrations();   //To get all notes in table
+        public Note GetWithId(long id);   //To get specific note for specific UserID
+        public void UpdateNotes(Note BeforeNote, Note AfterNote);  //To update registered data
     }
 }
