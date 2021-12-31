@@ -74,7 +74,7 @@ namespace Repository.Services
         {
             try
             {
-                return this.context.NoteTable.FirstOrDefault(i => i.UserId == id);
+                return this.context.NoteTable.FirstOrDefault(i => i.NoteId == id);
             }
             catch (Exception)
             {

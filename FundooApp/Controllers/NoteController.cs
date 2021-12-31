@@ -62,7 +62,7 @@ namespace FundooApp.Controllers
 
         }
         [Authorize]
-        [HttpGet("GetWithId/{id}")]  //To get specific note for specific UserID
+        [HttpGet("GetWithId/{id}")]  //To get specific note for specific NoteID
         public IActionResult GetWithId(long id)
         {
             try
