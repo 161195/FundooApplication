@@ -19,12 +19,6 @@ namespace FundooApp.Controllers
   
     public class UserController : ControllerBase
     {
-        //private readonly IConfiguration _configuration;
-        //public UserController(IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //}
-
         IUserBL BL;
         public UserController(IUserBL BL)
         {
@@ -49,6 +43,7 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
         }
+        [Authorize]
         [HttpGet("GetAllUserDetails")]              //get all registered data
         public IActionResult GetAllUserDetails()
         {

@@ -20,7 +20,7 @@ namespace FundooApp.Controllers
         {
             this.BL = BL;
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost]                                      //to add new note registration
         public IActionResult UserRegistration(NoteRegistration user)
         {
@@ -61,6 +61,7 @@ namespace FundooApp.Controllers
             }
 
         }
+        [Authorize]
         [HttpGet("GetWithId/{id}")]  //To get specific note for specific UserID
         public IActionResult GetWithId(long id)
         {
@@ -78,6 +79,7 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+        [Authorize]
         [HttpPut("UpdateId/{id}")]  //To update registered note 
         public IActionResult UpdateNotes(long id, Note note)
         {

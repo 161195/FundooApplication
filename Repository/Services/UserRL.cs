@@ -14,7 +14,7 @@ namespace Repository.Services
 {
     public class UserRL : IUserRL      //Repository logic
     {
-        private const string Secret = "fundooapplicationdone"; //for secret key generation
+        private const string key = "fundooapplicationdone"; //for secret key generation
 
         readonly UserContext context;  
         public UserRL(UserContext context)
@@ -103,7 +103,7 @@ namespace Repository.Services
         /// <returns></returns>
         private string GenerateJWTToken(string EmailId)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Secret));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
             new Claim("EmailId",EmailId)         
