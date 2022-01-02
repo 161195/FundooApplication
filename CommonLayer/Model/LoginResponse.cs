@@ -12,13 +12,8 @@ namespace CommonLayer.Model
         public long UserId
         {
             get; set;
-        }
-        //public string FirstName { get; set; }
-        //public string LastName { get; set; }
-        public string EmailId { get; set; }
-        //public DateTime? Createdat { get; set; }
-        //public DateTime? Modified { get; set; }
-        public string token { get; set; }
-       
+        }     
+        public string EmailId { get; set; }       
+        public string token { get; set; }       
     }
 }
