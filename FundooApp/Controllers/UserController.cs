@@ -145,7 +145,7 @@ namespace FundooApp.Controllers
                 }
                 else
                 {
-                    return Ok(new { Success = true, message = "Error in send Reset password link" });
+                    return Ok(new { Success = true, message = "Shows error in send Reset password link" });
                 }
             }
             catch (Exception e)
