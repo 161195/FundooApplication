@@ -40,6 +40,7 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
         }
+        [Authorize]
         [HttpGet("GetAllNoteDetails")]              //get all note registered data
         public IActionResult GetAllUserDetails()
         {

@@ -16,7 +16,7 @@ namespace FundooApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-  
+
     public class UserController : ControllerBase
     {
         IUserBL BL;
@@ -49,14 +49,14 @@ namespace FundooApp.Controllers
         {
             try
             {
-                var userDetailsList= this.BL.GetUserRegistrations();
+                var userDetailsList = this.BL.GetUserRegistrations();
                 if (userDetailsList != null)
                 {
-                    return this.Ok(new { Success = true, userlist=userDetailsList });
+                    return this.Ok(new { Success = true, userlist = userDetailsList });
                 }
                 else
                 {
-                    return this.BadRequest(new { Success = false, message ="No user records found"});
+                    return this.BadRequest(new { Success = false, message = "No user records found" });
                 }
             }
             catch (Exception ex)
@@ -64,18 +64,18 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
 
-        }     
+        }
         [HttpPost("Login")]                             //post login Details
         public IActionResult GetLogin(UserLogin user1)
-        {          
+        {
             try
             {
                 LoginResponse result = this.BL.GetLogin(user1);
                 if (result.EmailId == null)
                 {
                     return BadRequest(new { Success = false, message = "Email or Password Not Found" });
-                }            
-                return Ok(new { Success = true, message = "Login Successful", UserLoginInfo = result});
+                }
+                return Ok(new { Success = true, message = "Login Successful", UserLoginInfo = result });
             }
             catch (Exception e)
             {
@@ -100,6 +100,57 @@ namespace FundooApp.Controllers
             catch (Exception ex)
             {
                 return this.BadRequest(new { success = false, message = ex.InnerException });
+            }
+        }
+        
+        [HttpPost]
+        [Route("forgetPassword")]
+        public IActionResult ForgetPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest("Email should not be null or empty");
+            }
+
+            try
+            {
+                if (this.BL.ForgetPassword(email))
+                {
+                    return Ok(new { Success = true, message = "Reset password link send on Email Successfully" });
+                }
+                else
+                {
+                    return Ok(new { Success = true, message = "Error in send Reset password link" });
+                }
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Success = false, message = e.Message });
+            }
+        }
+        [HttpPut]
+        [Route("ResetPassword")]
+        public IActionResult ResetPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest("Email should not be null or empty");
+            }
+
+            try
+            {
+                if (this.BL.ForgetPassword(email))
+                {
+                    return Ok(new { Success = true, message = "Reset password link send on Email Successfully" });
+                }
+                else
+                {
+                    return Ok(new { Success = true, message = "Error in send Reset password link" });
+                }
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Success = false, message = e.Message });
             }
         }
     }

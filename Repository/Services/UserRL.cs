@@ -7,8 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
+using Experimental.System.Messaging;
+using System.Net.Mail;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Services
 {
@@ -80,7 +84,7 @@ namespace Repository.Services
                 {
                     string token = "";              
                     LoginResponse loginRespo = new LoginResponse();
-                    token = GenerateJWTToken(ValidLogin.EmailId);                   
+                    token = GenerateJWTToken(ValidLogin.EmailId,ValidLogin.UserId);                   
                     loginRespo.UserId = ValidLogin.UserId;
                     loginRespo.EmailId = ValidLogin.EmailId;
                     loginRespo.token = token;
@@ -101,12 +105,13 @@ namespace Repository.Services
         /// </summary>
         /// <param name="EmailId"></param>
         /// <returns></returns>
-        private string GenerateJWTToken(string EmailId)
+        private string GenerateJWTToken(string EmailId, long UserId)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
-            new Claim("EmailId",EmailId)         
+            new Claim(ClaimTypes.Email,EmailId),
+            new Claim("UserId",UserId.ToString())
             };
             var token = new JwtSecurityToken("Mayuri",EmailId,
               claims,
@@ -181,6 +186,35 @@ namespace Repository.Services
             Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
             decryptpwd = new String(decoded_char);
             return decryptpwd;
+        }
+
+        public bool ForgetPassword(string email)
+        {
+            User ValidLogin = this.context.UserTable.Where(X => X.EmailId == email).FirstOrDefault();
+            if (ValidLogin.EmailId != null)
+            {
+                var token = GenerateJWTToken(ValidLogin.EmailId, ValidLogin.UserId);
+
+                new MsmqOperation().Sender(token);
+                return true;
+            }
+            return false;          
+        }
+        public string ResetPassword(ChangePassword resetPassword)
+        {
+            var newPassword = this.context.UserTable
+                            .SingleOrDefault(x => x.EmailId == resetPassword.EmailId);
+            if (newPassword != null)
+            {
+                newPassword.Password = resetPassword.Password;
+                context.Entry(newPassword).State = EntityState.Modified;
+                context.SaveChanges();
+                return "Password Reset Successfull ! ";
+            }
+            else
+            {
+                return "Error While Resetting Password !";
+            }
         }
     }    
 }
