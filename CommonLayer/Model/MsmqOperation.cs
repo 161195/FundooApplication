@@ -11,20 +11,17 @@ namespace CommonLayer.Model
 {
     public class MsmqOperation
     {
-        MessageQueue msmq = new MessageQueue();
+        MessageQueue msmq = new MessageQueue();  //MessageQueue provides access to a queue on a message queue server.
         public void Sender(string token)
         {
             msmq.Path = @".\private$\Tokens";
-
             try
             {
                 if (!MessageQueue.Exists(msmq.Path))
                 {
                     MessageQueue.Create(msmq.Path);
                 }
-
-                msmq.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-
+                msmq.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) }); //Formatter is used when object is written to or read from the body
                 msmq.ReceiveCompleted += Msmq_ReceiveCompleted;
                 msmq.Send(token);
                 msmq.BeginReceive();
@@ -34,32 +31,41 @@ namespace CommonLayer.Model
             {
                 throw e.InnerException;
             }
-
         }
+       
         private void Msmq_ReceiveCompleted(object sender, ReceiveCompletedEventArgs e)
         {
             var msg = msmq.EndReceive(e.AsyncResult);
             string token = msg.Body.ToString();
-            string Subject = "Link to reset your FundooNotes App Credentials";
-            string body = JwtDecode(token);
             // mail sending code smtp 
-            var smtpClient = new SmtpClient("smtp.gmail.com")
+            string mailReceiver = GetEmailFromToken(token).ToString();
+            MailMessage message = new MailMessage("mayuritesting0123@gmail.com", mailReceiver);
+            string bodymessage = "for reset click here <a href='https://localhost:44317/api/User/GetAllUserDetails'> click me</a>" +
+                "copy the token Provided here : " + token;
+            message.Subject = "Sending Email Using Asp.Net & C#";
+            message.Body = bodymessage;
+            message.BodyEncoding = Encoding.UTF8;
+            message.IsBodyHtml = true;
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            System.Net.NetworkCredential basicCredential1 = new
+            System.Net.NetworkCredential("mayuritesting0123@gmail.com", "testing@95");
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = basicCredential1;
+            try 
             {
-                Port = 587,
-                Credentials = new NetworkCredential("mayuritesting0123@gmail.com", "testing@95"),
-                EnableSsl = true,
-            };
-
-            smtpClient.Send("mayuritesting0123@gmail.com", body, Subject, token);
-
-            // msmq receiver
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             msmq.BeginReceive();
         }
-        public static string JwtDecode(string token)
+        public static string GetEmailFromToken(string token)
         {
-            var jwtDecode = token;
             var handler = new JwtSecurityTokenHandler();
-            var decoded = handler.ReadJwtToken((jwtDecode));
+            var decoded = handler.ReadJwtToken((token));
             var result = decoded.Claims.FirstOrDefault().Value;
             return result;
         }

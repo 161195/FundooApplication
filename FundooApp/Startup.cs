@@ -38,7 +38,7 @@ namespace FundooApp
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooApp", Version = "v1" });
-                var jwtSecurityScheme = new OpenApiSecurityScheme
+                var jwtSecurityScheme = new OpenApiSecurityScheme //OpenApiSecurityScheme is a security scheme object
                 {
                     Scheme = "bearer",
                     BearerFormat = "JWT",
@@ -47,7 +47,7 @@ namespace FundooApp
                     Type = SecuritySchemeType.Http,
                     Description = "enter JWT Bearer token on textbox below!",
 
-                    Reference = new OpenApiReference
+                    Reference = new OpenApiReference  //for the reference object
                     {
                         Id = JwtBearerDefaults.AuthenticationScheme,
                         Type = ReferenceType.SecurityScheme
@@ -61,7 +61,7 @@ namespace FundooApp
                 });
 
             });
-            var tokenKey = Configuration.GetValue<string>("Jwt:Key");
+            var tokenKey = Configuration.GetValue<string>("Jwt:Key"); //this will extract values from specified key and convert it to T type
             var key = Encoding.ASCII.GetBytes(tokenKey);
 
             services.AddAuthentication(x =>

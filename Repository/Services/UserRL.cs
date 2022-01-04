@@ -166,8 +166,8 @@ namespace Repository.Services
         {
             string msg = "";
             byte[] encode = new byte[Password.Length];
-            encode = Encoding.UTF8.GetBytes(Password);
-            msg = Convert.ToBase64String(encode);
+            encode = Encoding.UTF8.GetBytes(Password); 
+            msg = Convert.ToBase64String(encode); //ToBase64String(Byte[]) Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with base-64 digits
             return msg;
         }
         /// <summary>
@@ -200,21 +200,22 @@ namespace Repository.Services
             }
             return false;          
         }
-        public string ResetPassword(ChangePassword resetPassword)
+        public bool ResetPassword(ChangePassword reset, string email)
         {
-            var newPassword = this.context.UserTable
-                            .SingleOrDefault(x => x.EmailId == resetPassword.EmailId);
-            if (newPassword != null)
+            var ValidLogin = this.context.UserTable.SingleOrDefault(x => x.EmailId == email);
+            if (ValidLogin.EmailId != null)
             {
-                newPassword.Password = resetPassword.Password;
-                context.Entry(newPassword).State = EntityState.Modified;
+                context.UserTable.Attach(ValidLogin);
+                ValidLogin.Password = reset.ConfirmPassword;
                 context.SaveChanges();
-                return "Password Reset Successfull ! ";
+                return true;
             }
             else
             {
-                return "Error While Resetting Password !";
+                return false;
             }
         }
+
+       
     }    
 }

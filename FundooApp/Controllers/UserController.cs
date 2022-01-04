@@ -43,7 +43,8 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
         }
-        [Authorize]
+        [AllowAnonymous]
+        //[Authorize]
         [HttpGet("GetAllUserDetails")]              //get all registered data
         public IActionResult GetAllUserDetails()
         {
@@ -102,7 +103,7 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
         }
-        
+
         [HttpPost]
         [Route("forgetPassword")]
         public IActionResult ForgetPassword(string email)
@@ -128,29 +129,19 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { Success = false, message = e.Message });
             }
         }
-        [HttpPut]
-        [Route("ResetPassword")]
-        public IActionResult ResetPassword(string email)
+        [Authorize]
+        [HttpPost]
+        [Route("ResetPassword/")]
+        public IActionResult ResetPassword(ChangePassword reset)
         {
-            if (string.IsNullOrEmpty(email))
+            var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+            if (this.BL.ResetPassword(reset, email))
             {
-                return BadRequest("Email should not be null or empty");
+                return Ok(new { Success = true, message = "password Reset Successfully" });
             }
-
-            try
+            else
             {
-                if (this.BL.ForgetPassword(email))
-                {
-                    return Ok(new { Success = true, message = "Reset password link send on Email Successfully" });
-                }
-                else
-                {
-                    return Ok(new { Success = true, message = "Shows error in send Reset password link" });
-                }
-            }
-            catch (Exception e)
-            {
-                return this.BadRequest(new { Success = false, message = e.Message });
+                return BadRequest(new { Success = false, message = "Password Reset denied!" });
             }
         }
     }
