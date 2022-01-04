@@ -54,6 +54,20 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        
+        public void DeleteNotes(Note person)
+        {
+            try
+            {
+                this.NoteRL.DeleteNotes(person);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
     }
-    
+
 }

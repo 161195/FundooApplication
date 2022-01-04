@@ -14,5 +14,6 @@ namespace Repository.Interfaces
         public IEnumerable<Note> GetNoteRegistrations();   //to get all registered notes
         public Note GetWithId(long id);  //To get specific note for specific UserID
         public void UpdateNotes(Note BeforeNote, Note AfterNote); //To update registered data
+        public void DeleteNotes(Note person);      
     }
 }

@@ -119,44 +119,7 @@ namespace Repository.Services
               signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        /// <summary>
-        /// to delete registered data
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <returns></returns>
-        public bool UserDelete(deleteOperation user)
-        {
-            try
-            {
-                User ValidUser = this.context.UserTable.Where(X => X.FirstName == user.FirstName && X.LastName == user.LastName).FirstOrDefault();
-                if (ValidUser != null)
-                {
-                    User DeleteUser = new User();
-                    DeleteUser.FirstName = ValidUser.FirstName;
-                    DeleteUser.LastName = ValidUser.LastName;
-                    DeleteUser.Password = encryptpass(ValidUser.Password);
-                    DeleteUser.EmailId = ValidUser.EmailId;
-                    DeleteUser.Createdat = DateTime.Now;
-                    DeleteUser.Modified = DateTime.Now;
-                }
-                //Deleting user details from the database user table 
-                this.context.UserTable.Remove(ValidUser);
-
-                int result = this.context.SaveChanges();
-                if (result > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+       
         /// <summary>
         /// Encryptpasses the specified password.
         /// </summary>
@@ -202,11 +165,11 @@ namespace Repository.Services
         }
         public bool ResetPassword(ChangePassword reset, string email)
         {
-            var ValidLogin = this.context.UserTable.SingleOrDefault(x => x.EmailId == email);
+            User ValidLogin = this.context.UserTable.SingleOrDefault(x => x.EmailId == email);
             if (ValidLogin.EmailId != null)
             {
                 context.UserTable.Attach(ValidLogin);
-                ValidLogin.Password = reset.ConfirmPassword;
+                ValidLogin.Password = encryptpass(reset.ConfirmPassword);
                 context.SaveChanges();
                 return true;
             }

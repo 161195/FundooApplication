@@ -7,6 +7,7 @@ using Repository.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FundooApp.Controllers
@@ -22,10 +23,11 @@ namespace FundooApp.Controllers
         }
         [Authorize]
         [HttpPost]                                      //to add new note registration
-        public IActionResult UserRegistration(NoteRegistration user)
+        public IActionResult NoteRegistrations(NoteRegistration user)
         {
             try
             {
+                //var UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value.ToString();
                 if (this.BL.Registration(user))
                 {
                     return this.Ok(new { Success = true, message = "Note added Successfully" });
@@ -68,7 +70,7 @@ namespace FundooApp.Controllers
         {
             try
             {
-                Note note = BL.GetWithId(id);
+                Note note = this.BL.GetWithId(id);
                 if (note == null)
                 {
                     return BadRequest(new { Success = false, message = "No Notes With Particular Id " });
@@ -99,5 +101,25 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
-    }   
-}
+        [HttpDelete("DeleteWithId/{id}")]
+        public IActionResult DeleteNotes(long id)
+        {
+            try
+            {
+                Note note = this.BL.GetWithId(id);
+                if (note == null)
+                {
+                    return BadRequest(new { Success = false, message = "Notes with entered id not found" });
+                }
+                BL.DeleteNotes(note);
+                return Ok(new { Success = true, message = "Notes Deleted From DataBase" });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+        
+}   
+

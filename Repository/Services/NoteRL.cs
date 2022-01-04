@@ -104,5 +104,17 @@ namespace Repository.Services
                 throw;
             }
         }
+        public void DeleteNotes(Note person)
+        {
+            try
+            {
+                this.context.NoteTable.Remove(person);
+                this.context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

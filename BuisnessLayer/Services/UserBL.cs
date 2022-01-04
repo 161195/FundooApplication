@@ -41,18 +41,6 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-        public bool UserDelete(deleteOperation user)  //to delete registered data
-        {
-            try
-            {
-                return this.UserRL.UserDelete(user);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
         public bool ForgetPassword(string email)
         {
             try

@@ -83,27 +83,6 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { Success = false, message = e.Message });
             }
         }
-        [Authorize]
-        [HttpDelete("Delete")]                                      //to delete existing registration
-        public IActionResult UserDelete(deleteOperation user)
-        {
-            try
-            {
-                if (this.BL.UserDelete(user))
-                {
-                    return this.Ok(new { Success = true, message = "Deleted" });
-                }
-                else
-                {
-                    return this.BadRequest(new { Success = false, message = "No Such Registration Found" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(new { success = false, message = ex.InnerException });
-            }
-        }
-
         [HttpPost]
         [Route("forgetPassword")]
         public IActionResult ForgetPassword(string email)
@@ -130,19 +109,26 @@ namespace FundooApp.Controllers
             }
         }
         [Authorize]
-        [HttpPost]
+        [HttpPut]
         [Route("ResetPassword/")]
         public IActionResult ResetPassword(ChangePassword reset)
         {
-            var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
-            if (this.BL.ResetPassword(reset, email))
+            if(reset.NewPassWord==reset.ConfirmPassword)
             {
-                return Ok(new { Success = true, message = "password Reset Successfully" });
+                var email = User.FindFirst(ClaimTypes.Email).Value.ToString(); 
+                if (this.BL.ResetPassword(reset, email))
+                {
+                    return Ok(new { Success = true, message = "password Reset Successfully" });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Password Reset Unsuccesfully!" });
+                }
             }
             else
             {
-                return BadRequest(new { Success = false, message = "Password Reset denied!" });
-            }
+                return BadRequest(new { Success = false, message = "NewPassword does not matches with ConfirmPassword" });
+            }          
         }
     }
 }
