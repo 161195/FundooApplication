@@ -104,11 +104,11 @@ namespace Repository.Services
                 throw;
             }
         }
-        public void DeleteNotes(Note person)
+        public void DeleteNotes(Note user1)
         {
             try
             {
-                this.context.NoteTable.Remove(person);
+                this.context.NoteTable.Remove(user1);
                 this.context.SaveChanges();
             }
             catch (Exception)

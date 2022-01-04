@@ -14,6 +14,6 @@ namespace BuisnessLayer.Interfaces
         public IEnumerable<Note> GetNoteRegistrations();   //To get all notes in table
         public Note GetWithId(long id);   //To get specific note for specific UserID
         public void UpdateNotes(Note BeforeNote, Note AfterNote);  //To update registered data
-        public void DeleteNotes(Note person); //To delete particular notes
+        public void DeleteNotes(Note user1); //To delete particular notes
     }
 }

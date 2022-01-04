@@ -55,11 +55,11 @@ namespace BuisnessLayer.Services
             }
         }
         
-        public void DeleteNotes(Note person)
+        public void DeleteNotes(Note user1)
         {
             try
             {
-                this.NoteRL.DeleteNotes(person);
+                this.NoteRL.DeleteNotes(user1);
             }
             catch (Exception)
             {

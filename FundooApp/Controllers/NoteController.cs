@@ -109,10 +109,10 @@ namespace FundooApp.Controllers
                 Note note = this.BL.GetWithId(id);
                 if (note == null)
                 {
-                    return BadRequest(new { Success = false, message = "Notes with entered id not found" });
+                    return BadRequest(new { Success = false, message = "Entered NoteId not found" });
                 }
                 BL.DeleteNotes(note);
-                return Ok(new { Success = true, message = "Notes Deleted From DataBase" });
+                return Ok(new { Success = true, message = "Deleted notes from DataBase" });
             }
             catch (Exception)
             {
