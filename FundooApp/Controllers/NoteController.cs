@@ -101,6 +101,7 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+        [Authorize]
         [HttpDelete("DeleteWithId/{id}")]
         public IActionResult DeleteNotes(long id)
         {
@@ -124,6 +125,7 @@ namespace FundooApp.Controllers
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
+        [Authorize]
         [HttpPut]
         [Route("PinNote")]
         public IActionResult PinNote(int id)
@@ -143,37 +145,13 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-
-        /// <summary>
-        /// Controller Method call method UnpinNote() method to unpin the note
-        /// </summary>
-        /// <param name="id">note id</param>
-        /// <returns>string message</returns>
-        [HttpPut]
-        [Route("UnpinNote")]
-        public IActionResult UnpinNote(int id)
-        {
-            try
-            {
-                var result = this.BL.UnpinNote(id);
-                if (result != null)
-                {
-                    return this.Ok(new { Status = true, Message = result, Data = result });
-                }
-
-                return this.BadRequest(new { Status = false, Message = result });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, Message = ex.Message });
-            }
-        }
-
         /// <summary>
         /// Controller Method call method ArchiveNote() method to Archive  the note
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// 
+        [Authorize]
         [HttpPut]
         [Route("ArchiveNote")]
         public IActionResult ArchiveNote(int id)
@@ -194,34 +172,12 @@ namespace FundooApp.Controllers
             }
         }
         /// <summary>
-        /// Controller Method call method UnarchiveNote() method to Unarchive the note
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPut]
-        [Route("UnarchiveNote")]
-        public IActionResult UnarchiveNote(int id)
-        {
-            try
-            {
-                var result = this.BL.UnarchiveNote(id);
-                if (result != null)
-                {
-                    return this.Ok(new { Status = true, Message = result, Data = result });
-                }
-
-                return this.BadRequest(new { Status = false, Message = result });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, Message = ex.Message });
-            }
-        }
-        /// <summary>
         /// Controller method to Trash Or Restore a Note
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
+        /// 
+        [Authorize]
         [HttpPut]
         [Route("TrashOrRestoreNote")]
         public IActionResult TrashOrRestoreNote(int id)
@@ -231,7 +187,7 @@ namespace FundooApp.Controllers
                 var result = this.BL.TrashOrRestoreNote(id);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = result, Data = result });
+                    return this.Ok(new { Status = true, Message = result});
                 }
 
                 return this.BadRequest(new { Status = false, Message = result });
@@ -247,6 +203,7 @@ namespace FundooApp.Controllers
         /// <param name="id">note id</param>
         /// <param name="color">color name</param>
         /// <returns></returns>
+        [Authorize]
         [HttpPut]
         [Route("addColor")]
         public IActionResult ChangeColor(long NoteId, string color)
@@ -266,6 +223,7 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+              
     }
 }
         

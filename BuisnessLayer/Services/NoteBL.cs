@@ -94,36 +94,11 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-
-        public string UnpinNote(int id)
-        {
-            try
-            {
-                var note = this.NoteRL.UnpinNote(id);
-                return note;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
         public string ArchiveNote(int id)
         {
             try
             {
                 var note = this.NoteRL.ArchiveNote(id);
-                return note;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public string UnarchiveNote(int id)
-        {
-            try
-            {
-                var note = this.NoteRL.UnarchiveNote(id);
                 return note;
             }
             catch (Exception ex)

@@ -117,78 +117,29 @@ namespace Repository.Services
                 throw;
             }
         }
-        ///// <summary>
-        ///// Method implementation to get pinned note
-        ///// </summary>
-        ///// <returns>pinned note</returns>
-        //public IEnumerable<Notes> GetPinnedNote()
-        //{
-        //    try
-        //    {
-        //        IEnumerable<Notes> result;
-        //        var note = this.context.NotesTable.Where(x => x.IsPin == true);
-        //        result = note;
-        //        return result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
         public string PinNote(int id)
         {
             try
-            {
-                string message;
-                var newNote = new Note() { NoteId = id };
-                var note = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id).IsPin;
-                if (note == false)
-                {
-
-                    var pinNote = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id).IsPin == true;
-                    var pinThisNote = context.NoteTable.FirstOrDefault(u => u.NoteId == id);
-                    pinThisNote.IsPin = pinNote;
-                    this.context.SaveChanges();
-
-                    message = "Note Pinned";
-                    return message;
-
+            {                  
+                var note = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id);
+                if (note.IsPin == false)
+                {                                     
+                    note.IsPin = true;
+                    this.context.SaveChanges();                   
+                    return "Note Pinned";
                 }
-                return message = "Note is unpinned by default.";
+                else
+                {
+                    note.IsPin = false;
+                    this.context.SaveChanges();
+                    return "Note UnPinned";
+                }                   
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-
-        }
-        public string UnpinNote(int id)
-        {
-            try
-            {
-                string message;
-                var newNote = new Note() { NoteId = id };
-                var note = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id).IsPin;
-                if (note == true)
-                {
-                    var unpinNote = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id).IsPin == false;
-                    var unpinThisNote = context.NoteTable.FirstOrDefault(u => u.NoteId == id);
-                    unpinThisNote.IsPin = unpinNote;
-                    this.context.SaveChanges();
-                    message = "Note Unpinned";
-                    return message;
-                }
-                return message = "Note is unpinned by default.";
-            }
-
-
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
+        }               
         /// <summary>
         /// Method to Archive or unarchive the note
         /// </summary>
@@ -198,53 +149,25 @@ namespace Repository.Services
         {
             try
             {
-                string message;
-                var note = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id).IsArchive;
-                if (note == false)
+                var note = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id);
+                if (note.IsArchive == false)
                 {
-                    var archiveNote = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id).IsArchive == true;
-                    var archiveThisNote = context.NoteTable.FirstOrDefault(u => u.NoteId == id);
-                    archiveThisNote.IsArchive = archiveNote;
+                    note.IsArchive = true;
                     this.context.SaveChanges();
-                    message = "Note Archived";
-                    return message;
+                    return "Note Is Archive";
                 }
-
-                return message = "Unable to archive note.";
+                else
+                {
+                    note.IsArchive = false;
+                    this.context.SaveChanges();
+                    return "Note Is UnArchive";
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-        }
-        /// <summary>
-        /// Method to Archive or unarchive the note
-        /// </summary>
-        /// <param name="id">note id</param>
-        /// <returns>string message</returns>
-        public string UnarchiveNote(int id)
-        {
-            try
-            {
-                string message;
-                var note = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id).IsArchive;
-                if (note == true)
-                {
-                    var unarchiveNote = this.context.NoteTable.FirstOrDefault(x => x.NoteId == id).IsArchive == false;
-                    var unarchiveThisNote = context.NoteTable.FirstOrDefault(u => u.NoteId == id);
-                    unarchiveThisNote.IsArchive = unarchiveNote;
-                    this.context.SaveChanges();
-                    message = "Note Unarchived";
-                    return message;
-                }
-
-                return message = "Unable to unarchive note.";
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        }      
         /// <summary>
         /// Method to Trash Or Restore Note
         /// </summary>

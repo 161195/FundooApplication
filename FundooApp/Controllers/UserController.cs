@@ -123,5 +123,7 @@ namespace FundooApp.Controllers
                 return BadRequest(new { Success = false, message = "NewPassword does not matches with ConfirmPassword" });
             }          
         }
+        
+        
     }
 }

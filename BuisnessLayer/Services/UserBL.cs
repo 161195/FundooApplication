@@ -41,7 +41,7 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-        public bool ForgetPassword(ForgetPasswordModel model)
+        public bool ForgetPassword(ForgetPasswordModel model) //To apply for forget password and get the reset token
         {
             try
             {

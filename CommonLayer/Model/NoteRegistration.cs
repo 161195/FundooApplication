@@ -9,7 +9,7 @@ namespace CommonLayer.Model
 {
     public class NoteRegistration
     {
-        //public long UserId { get; set; }
+        public long UserId { get; set; }
 
         [Required(ErrorMessage = "Title is required")]
         [DataType(DataType.Text)]

@@ -42,7 +42,6 @@ namespace Repository.Services
         {
             try
             {
-
                 User newUser = new User();
                 newUser.FirstName = user.FirstName;
                 newUser.LastName = user.LastName;
@@ -150,7 +149,7 @@ namespace Repository.Services
             decryptpwd = new String(decoded_char);
             return decryptpwd;
         }
-
+        //To apply for forget password and get the reset token
         public bool ForgetPassword(ForgetPasswordModel model)
         {
             User ValidLogin = this.context.UserTable.Where(X => X.EmailId == model.EmailId).FirstOrDefault();
@@ -177,8 +176,6 @@ namespace Repository.Services
             {
                 return false;
             }
-        }
-
-       
+        }      
     }    
 }

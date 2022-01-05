@@ -15,12 +15,8 @@ namespace BuisnessLayer.Interfaces
         public Note GetWithId(long id);   //To get specific note for specific UserID
         public void UpdateNotes(Note BeforeNote, Note AfterNote);  //To update registered data
         public void DeleteNotes(Note user1); //To delete particular notes
-
-        //public IEnumerable<Notes> GetPinnedNote();
         public string PinNote(int id);
-        public string UnpinNote(int id);
         public string ArchiveNote(int id);
-        public string UnarchiveNote(int id);
         public string TrashOrRestoreNote(int id);
         public string AddColor(long NoteId, string color);
     }
