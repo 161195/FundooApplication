@@ -151,9 +151,9 @@ namespace Repository.Services
             return decryptpwd;
         }
 
-        public bool ForgetPassword(string email)
+        public bool ForgetPassword(ForgetPasswordModel model)
         {
-            User ValidLogin = this.context.UserTable.Where(X => X.EmailId == email).FirstOrDefault();
+            User ValidLogin = this.context.UserTable.Where(X => X.EmailId == model.EmailId).FirstOrDefault();
             if (ValidLogin.EmailId != null)
             {
                 var token = GenerateJWTToken(ValidLogin.EmailId, ValidLogin.UserId);

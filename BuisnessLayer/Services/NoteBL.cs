@@ -17,11 +17,11 @@ namespace BuisnessLayer.Services
         {
             this.NoteRL = noteRL;
         }
-        public bool Registration(NoteRegistration user)
+        public bool Registration(NoteRegistration user, long UserId)
         {
             try
             {
-                return this.NoteRL.Registration(user);
+                return this.NoteRL.Registration(user,UserId);
             }
             catch (Exception ex)
             {
@@ -53,8 +53,7 @@ namespace BuisnessLayer.Services
             {
                 throw;
             }
-        }
-        
+        }      
         public void DeleteNotes(Note user1)
         {
             try
@@ -66,8 +65,97 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        ///// <summary>
+        ///// Method to call GetPinnedNote method from NotesRepository 
+        ///// </summary>
+        ///// <returns>pinned note</returns>
+        //public IEnumerable<Notes> GetPinnedNote()
+        //{
+        //    try
+        //    {
+        //        IEnumerable<Notes> note = this.NotesRL.GetPinnedNote();
+        //        return note;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
 
+        public string PinNote(int id)
+        {
+            try
+            {
+                var note = this.NoteRL.PinNote(id);
+                return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
+        public string UnpinNote(int id)
+        {
+            try
+            {
+                var note = this.NoteRL.UnpinNote(id);
+                return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string ArchiveNote(int id)
+        {
+            try
+            {
+                var note = this.NoteRL.ArchiveNote(id);
+                return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string UnarchiveNote(int id)
+        {
+            try
+            {
+                var note = this.NoteRL.UnarchiveNote(id);
+                return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string TrashOrRestoreNote(int id)
+        {
+            try
+            {
+                var note = this.NoteRL.TrashOrRestoreNote(id);
+                return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string AddColor(long NoteId, string color)
+        {
+            try
+            {
+                string message = this.NoteRL.AddColor(NoteId, color);
+                return message;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
-
 }
+
+

@@ -27,8 +27,8 @@ namespace FundooApp.Controllers
         {
             try
             {
-                //var UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value.ToString();
-                if (this.BL.Registration(user))
+                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                if (this.BL.Registration(user,UserId))
                 {
                     return this.Ok(new { Success = true, message = "Note added Successfully" });
                 }
@@ -119,7 +119,155 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+        /// <summary>
+        /// Controller Method call method PinNote() method to Pin the note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        [HttpPut]
+        [Route("PinNote")]
+        public IActionResult PinNote(int id)
+        {
+            try
+            {
+                var result = this.BL.PinNote(id);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Controller Method call method UnpinNote() method to unpin the note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        [HttpPut]
+        [Route("UnpinNote")]
+        public IActionResult UnpinNote(int id)
+        {
+            try
+            {
+                var result = this.BL.UnpinNote(id);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Controller Method call method ArchiveNote() method to Archive  the note
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("ArchiveNote")]
+        public IActionResult ArchiveNote(int id)
+        {
+            try
+            {
+                var result = this.BL.ArchiveNote(id);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        /// <summary>
+        /// Controller Method call method UnarchiveNote() method to Unarchive the note
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("UnarchiveNote")]
+        public IActionResult UnarchiveNote(int id)
+        {
+            try
+            {
+                var result = this.BL.UnarchiveNote(id);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        /// <summary>
+        /// Controller method to Trash Or Restore a Note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        [HttpPut]
+        [Route("TrashOrRestoreNote")]
+        public IActionResult TrashOrRestoreNote(int id)
+        {
+            try
+            {
+                var result = this.BL.TrashOrRestoreNote(id);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        /// <summary>
+        /// Controller method to add color for note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <param name="color">color name</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("addColor")]
+        public IActionResult ChangeColor(long NoteId, string color)
+        {
+            try
+            {
+                var message = this.BL.AddColor(NoteId, color);
+                if (message.Equals("New Color has set to this note !"))
+                {
+                    return this.Ok(new { Status = true, Message = message, Data = color});
+                }
+
+                return this.BadRequest(new { Status = true, Message = message });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
     }
+}
         
-}   
+
 

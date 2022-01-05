@@ -41,11 +41,11 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-        public bool ForgetPassword(string email)
+        public bool ForgetPassword(ForgetPasswordModel model)
         {
             try
             {
-                return this.UserRL.ForgetPassword(email);
+                return this.UserRL.ForgetPassword(model);
             }
             catch (Exception ex)
             {

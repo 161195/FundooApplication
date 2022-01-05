@@ -85,29 +85,22 @@ namespace FundooApp.Controllers
         }
         [HttpPost]
         [Route("forgetPassword")]
-        public IActionResult ForgetPassword(string email)
+        public IActionResult ForgetPassword(ForgetPasswordModel model)
         {
-            if (string.IsNullOrEmpty(email))
-            {
-                return BadRequest("Email should not be null or empty");
-            }
-
             try
-            {
-                if (this.BL.ForgetPassword(email))
+            {               
+                if (this.BL.ForgetPassword(model))
                 {
-                    return Ok(new { Success = true, message = "Reset password link send on Email Successfully" });
+                    return Ok(new { Success = true, message = "Password Reset Mail Sent" });
                 }
-                else
-                {
-                    return Ok(new { Success = true, message = "Error in send Reset password link" });
-                }
+                return BadRequest(new { Success = false, message = "Invalid Credentials for reset password" });
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return this.BadRequest(new { Success = false, message = e.Message });
+                throw;
             }
-        }
+        }       
+       
         [Authorize]
         [HttpPut]
         [Route("ResetPassword/")]
