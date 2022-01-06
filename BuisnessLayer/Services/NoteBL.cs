@@ -28,9 +28,9 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-        public IEnumerable<Note> GetNoteRegistrations()
+        public IEnumerable<Note> GetNoteRegistrations(long UserId)
         {
-            return this.NoteRL.GetNoteRegistrations();
+            return this.NoteRL.GetNoteRegistrations(UserId);
         }
         public Note GetWithId(long id)
         {

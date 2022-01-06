@@ -61,7 +61,7 @@ namespace FundooApp
                 });
 
             });
-            var tokenKey = Configuration.GetValue<string>("Jwt:Key"); //this will extract values from specified key and convert it to T type
+            var tokenKey = Configuration.GetValue<string>("Jwt:key"); //this will extract values from specified key and convert it to T type
             var key = Encoding.ASCII.GetBytes(tokenKey);
 
             services.AddAuthentication(x =>

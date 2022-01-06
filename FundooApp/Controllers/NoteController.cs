@@ -48,7 +48,8 @@ namespace FundooApp.Controllers
         {
             try
             {
-                var noteDetailsList = this.BL.GetNoteRegistrations();
+                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var noteDetailsList = this.BL.GetNoteRegistrations(UserId);
                 if (noteDetailsList != null)
                 {
                     return this.Ok(new { Success = true, userlist = noteDetailsList });
@@ -64,6 +65,7 @@ namespace FundooApp.Controllers
             }
 
         }
+
         [Authorize]
         [HttpGet("GetWithId/{id}")]  //To get specific note for specific NoteID
         public IActionResult GetWithId(long id)
@@ -82,6 +84,7 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+        
         [Authorize]
         [HttpPut("UpdateId/{id}")]  //To update registered note 
         public IActionResult UpdateNotes(long id, Note note)
@@ -223,7 +226,34 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-              
+        //[HttpPut]
+        //[Route("ImageUpload/")]
+        //public async Task<ActionResult> Post([FromForm] CarViewModel carVM)
+        //{
+        //    if (carVM.Image != null)
+        //    {
+        //        var a = _hostingEnv.WebRootPath;
+        //        var fileName = Path.GetFileName(carVM.Image.FileName);
+        //        var filePath = Path.Combine(_hostingEnv.WebRootPath, "images\\Cars", fileName);
+
+        //        using (var fileSteam = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            await carVM.Image.CopyToAsync(fileSteam);
+        //        }
+
+        //        Car car = new Car();
+        //        car.CarName = carVM.CarName;
+        //        car.ImagePath = filePath;  //save the filePath to database ImagePath field.
+        //        _context.Add(car);
+        //        await _context.SaveChangesAsync();
+        //        return Ok();
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
     }
 }
         

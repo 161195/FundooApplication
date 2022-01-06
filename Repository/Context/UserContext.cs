@@ -23,5 +23,10 @@ namespace Repository.Context
         {
             get; set;
         }
+        public DbSet<Collaborator> CollaboratorTable
+        {
+            get; set;
+        }
+
     }
 }

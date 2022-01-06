@@ -13,17 +13,19 @@ using System.Text;
 using Experimental.System.Messaging;
 using System.Net.Mail;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Repository.Services
 {
     public class UserRL : IUserRL      //Repository logic
     {
-        private const string key = "fundooapplicationdone"; //for secret key generation
-
-        readonly UserContext context;  
-        public UserRL(UserContext context)
+        //private const string key = "fundooapplicationdone"; //for secret key generation
+        IConfiguration _config;
+        readonly UserContext context;       
+        public UserRL(UserContext context , IConfiguration config)
         {
             this.context = context;
+            _config = config;
         }
         /// <summary>
         /// to get all the registered data
@@ -81,9 +83,9 @@ namespace Repository.Services
                 User ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId).FirstOrDefault();
                 if (Decryptpass(ValidLogin.Password) == User1.Password)
                 {
-                    string token = "";              
+                    //string token = "";              
                     LoginResponse loginRespo = new LoginResponse();
-                    token = GenerateJWTToken(ValidLogin.EmailId,ValidLogin.UserId);                   
+                    string token = GenerateJWTToken(ValidLogin.EmailId,ValidLogin.UserId);                   
                     loginRespo.UserId = ValidLogin.UserId;
                     loginRespo.EmailId = ValidLogin.EmailId;
                     loginRespo.token = token;
@@ -104,21 +106,51 @@ namespace Repository.Services
         /// </summary>
         /// <param name="EmailId"></param>
         /// <returns></returns>
+        //private string GenerateJWTToken(string EmailId, long UserId)
+        //{
+        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        //    var claims = new[] {
+        //    new Claim(ClaimTypes.Email,EmailId),
+        //    new Claim("UserId",UserId.ToString())
+        //    };
+        //    var token = new JwtSecurityToken("Mayuri",EmailId,
+        //      claims,
+        //      expires: DateTime.Now.AddMinutes(20),
+        //      signingCredentials: credentials);
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
+        /// <summary>
+        /// created method to Generate Token
+        /// </summary>
+        /// <param name="EmailId"></param>
+        /// <returns></returns>
         private string GenerateJWTToken(string EmailId, long UserId)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var claims = new[] {
-            new Claim(ClaimTypes.Email,EmailId),
-            new Claim("UserId",UserId.ToString())
-            };
-            var token = new JwtSecurityToken("Mayuri",EmailId,
-              claims,
-              expires: DateTime.Now.AddMinutes(20),
-              signingCredentials: credentials);
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            try
+            {
+                var loginTokenHandler = new JwtSecurityTokenHandler();
+                var loginTokenKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config[("Jwt:key")]));
+                var loginTokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Email, EmailId),
+                        new Claim("UserId",UserId.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddMinutes(20),
+                    SigningCredentials = new SigningCredentials(loginTokenKey, SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = loginTokenHandler.CreateToken(loginTokenDescriptor);
+                return loginTokenHandler.WriteToken(token);
+
+            }    
+            catch (Exception)
+            {
+                throw;
+            }
         }
-       
+
         /// <summary>
         /// Encryptpasses the specified password.
         /// </summary>

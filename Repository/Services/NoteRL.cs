@@ -62,9 +62,10 @@ namespace Repository.Services
         /// Gets the note registrations.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Note> GetNoteRegistrations()
+        public IEnumerable<Note> GetNoteRegistrations(long UserId)
         {
-            return context.NoteTable;
+             return this.context.NoteTable.Where(i => i.UserId == UserId);
+           
         }
         /// <summary>
         /// Gets the note info with ID.
@@ -82,6 +83,7 @@ namespace Repository.Services
                 throw;
             }
         }
+      
         /// <summary>
         /// Updates the notes.
         /// </summary>
