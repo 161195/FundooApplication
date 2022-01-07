@@ -44,7 +44,7 @@ namespace Repository.Entity
         public User User { get; set; }
         [ForeignKey("User")]
         public long UserId { get; set; }
-
+        //public ICollection<CollabEntity> CollabEntity { get; set; }
     }
  
 }

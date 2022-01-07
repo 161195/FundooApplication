@@ -8,18 +8,9 @@ using System.Threading.Tasks;
 
 namespace Repository.Entity
 {
-    public class Collaborator
+    public class Label
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long JunctionId { get; set; }
-        public string EmailId { get; set; }
-
-        [ForeignKey("Note")]
-        public long NoteId { get; set; }
         
-
-
 
     }
 }

@@ -51,7 +51,7 @@ namespace CommonLayer.Model
             System.Net.NetworkCredential("mayuritesting0123@gmail.com", "testing@95");
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
-            client.Credentials = basicCredential1;
+            client.Credentials = basicCredential1; //get or set credentials which used to authenticate the sender
             try 
             {
                 client.Send(message);

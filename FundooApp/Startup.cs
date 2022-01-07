@@ -33,6 +33,8 @@ namespace FundooApp
             services.AddTransient<IUserRL, UserRL>();
             services.AddTransient<INoteBL, NoteBL>(); 
             services.AddTransient<INoteRL, NoteRL>();
+            services.AddTransient<ICollaboratorBL, CollaboratorBL>();
+            services.AddTransient<ICollaboratorRL, CollaboratorRL>();
             services.AddDbContext<UserContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserDataBase"]));
             services.AddControllers().AddNewtonsoftJson();      
             services.AddSwaggerGen(c =>
@@ -62,7 +64,7 @@ namespace FundooApp
 
             });
             var tokenKey = Configuration.GetValue<string>("Jwt:key"); //this will extract values from specified key and convert it to T type
-            var key = Encoding.ASCII.GetBytes(tokenKey);
+            var key = Encoding.ASCII.GetBytes(tokenKey);  //encoding od that key
 
             services.AddAuthentication(x =>
             {

@@ -82,8 +82,7 @@ namespace Repository.Services
             {              
                 User ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId).FirstOrDefault();
                 if (Decryptpass(ValidLogin.Password) == User1.Password)
-                {
-                    //string token = "";              
+                {                               
                     LoginResponse loginRespo = new LoginResponse();
                     string token = GenerateJWTToken(ValidLogin.EmailId,ValidLogin.UserId);                   
                     loginRespo.UserId = ValidLogin.UserId;
@@ -199,7 +198,7 @@ namespace Repository.Services
             User ValidLogin = this.context.UserTable.SingleOrDefault(x => x.EmailId == email);
             if (ValidLogin.EmailId != null)
             {
-                context.UserTable.Attach(ValidLogin);
+               //context.UserTable.Attach(ValidLogin);
                 ValidLogin.Password = encryptpass(reset.ConfirmPassword);
                 context.SaveChanges();
                 return true;
