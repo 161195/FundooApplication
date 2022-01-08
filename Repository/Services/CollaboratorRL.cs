@@ -17,13 +17,13 @@ namespace Repository.Services
         {
             this.context = context;            
         }
-        public bool CollabAdd(CollaboratorModel user)
+        public bool CollabAdd(CollaboratorModel user, long UserId)
         {
             try
             {
-                var Cd = this.context.NoteTable.Where(x => x.NoteId == user.NoteId).SingleOrDefault();
-                var Cd1 = this.context.UserTable.Where(x => x.EmailId == user.EmailId).SingleOrDefault();
-                if (Cd != null && Cd1 != null)
+                var notes = this.context.NoteTable.Where(x => x.NoteId == user.NoteId && x.UserId == UserId).SingleOrDefault();
+                var mail = this.context.UserTable.Where(x => x.EmailId == user.EmailId).SingleOrDefault();
+                if (notes != null && mail != null)
                 {
                     CollabEntity AddCollabNote = new CollabEntity();
                     AddCollabNote.NoteId = user.NoteId;
@@ -45,6 +45,38 @@ namespace Repository.Services
                 throw;
             }
                        
+        }
+        public string RemoveCollaborate(CollaboratorModel collaborate, long UserId)
+        {
+            try
+            {
+                var note = this.context.NoteTable.FirstOrDefault(x => x.NoteId == collaborate.NoteId && x.UserId == UserId);
+                var UserEnter = this.context.UserTable.FirstOrDefault(x => x.EmailId == collaborate.EmailId);
+                if (note != null && UserEnter.EmailId != null)
+                {
+                    CollabEntity UserRemoved = this.context.CollabEntityTable.FirstOrDefault(x => x.EmailId == collaborate.EmailId && x.NoteId == collaborate.NoteId);
+                    if (UserRemoved != null)
+                    this.context.CollabEntityTable.Remove(UserRemoved);
+                    int result = this.context.SaveChanges();
+                    if (result > 0)
+                    {
+                        return "Collaboration has been removed";
+                    }
+                    else
+                    {
+                        return "Collaboration has not been removed ";
+                    }
+                }
+                else
+                {
+                    return "You have no permission to Collaborate. Invalid ID";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+
         }
 
     }

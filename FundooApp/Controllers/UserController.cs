@@ -43,8 +43,8 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
         }
-        [AllowAnonymous]
-        //[Authorize]
+        //[AllowAnonymous]
+        [Authorize]
         [HttpGet("GetAllUserDetails")]              //get all registered data
         public IActionResult GetAllUserDetails()
         {
