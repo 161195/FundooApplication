@@ -8,17 +8,22 @@ using System.Threading.Tasks;
 
 namespace Repository.Entity
 {
-    public class CollabEntity
+    public class Lable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long CollabsId { get; set; }
+        public long LableId { get; set; }
+        public string Lables { get; set; }
         public Note Note { get; set; }
-
-        [ForeignKey("Note")]
-        public long NoteId { get; set; }
         public User User { get; set; }
-        public string EmailId { get; set; }
+
+        //[ForeignKey("Note")]
+        public long? NoteId { get; set; }
+
+        [ForeignKey("User")]
+        public long UserId { get; set; }
+       
+
 
     }
 }

@@ -119,6 +119,12 @@ namespace Repository.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Pins the note.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception"></exception>
         public string PinNote(int id)
         {
             try
@@ -167,7 +173,7 @@ namespace Repository.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }      
         /// <summary>

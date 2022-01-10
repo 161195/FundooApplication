@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Repository.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial95 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,6 +54,43 @@ namespace Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CollabEntityTable",
+                columns: table => new
+                {
+                    CollabsId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NoteId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    EmailId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CollabEntityTable", x => x.CollabsId);
+                    table.ForeignKey(
+                        name: "FK_CollabEntityTable_NoteTable_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "NoteTable",
+                        principalColumn: "NoteId",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_CollabEntityTable_UserTable_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserTable",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollabEntityTable_NoteId",
+                table: "CollabEntityTable",
+                column: "NoteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollabEntityTable_UserId",
+                table: "CollabEntityTable",
+                column: "UserId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_NoteTable_UserId",
                 table: "NoteTable",
@@ -62,6 +99,9 @@ namespace Repository.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CollabEntityTable");
+
             migrationBuilder.DropTable(
                 name: "NoteTable");
 

@@ -43,9 +43,13 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Get all registered details
+        /// </summary>
+        /// <returns></returns>
         //[AllowAnonymous]
         [Authorize]
-        [HttpGet("GetAllUserDetails")]              //get all registered data
+        [HttpGet("GetDetails")]             
         public IActionResult GetAllUserDetails()
         {
             try
@@ -66,7 +70,12 @@ namespace FundooApp.Controllers
             }
 
         }
-        [HttpPost("Login")]                             //post login Details
+        /// <summary>
+        /// Gets the login.
+        /// </summary>
+        /// <param name="user1">The user1.</param>
+        /// <returns></returns>
+        [HttpPost("Login")]                             
         public IActionResult GetLogin(UserLogin user1)
         {
             try
@@ -83,6 +92,11 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { Success = false, message = e.Message });
             }
         }
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("forgetPassword")]
         public IActionResult ForgetPassword(ForgetPasswordModel model)
@@ -99,8 +113,12 @@ namespace FundooApp.Controllers
             {
                 throw;
             }
-        }       
-       
+        }
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="reset">The reset.</param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut]
         [Route("ResetPassword/")]

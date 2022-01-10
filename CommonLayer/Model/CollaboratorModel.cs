@@ -10,6 +10,7 @@ namespace CommonLayer.Model
     {
         public long NoteId { get; set; }
         public string EmailId { get; set; }
+    
 
     }
 }

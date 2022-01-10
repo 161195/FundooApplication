@@ -10,8 +10,8 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20211230085725_Initial")]
-    partial class Initial
+    [Migration("20220109123919_Initial95")]
+    partial class Initial95
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,31 @@ namespace Repository.Migrations
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.Entity("Repository.Entity.Collaborator", b =>
+                {
+                    b.Property<long>("CollabsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("EmailId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("NoteId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CollabsId");
+
+                    b.HasIndex("NoteId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CollabEntityTable");
+                });
 
             modelBuilder.Entity("Repository.Entity.Note", b =>
                 {
@@ -108,6 +133,25 @@ namespace Repository.Migrations
                     b.ToTable("UserTable");
                 });
 
+            modelBuilder.Entity("Repository.Entity.Collaborator", b =>
+                {
+                    b.HasOne("Repository.Entity.Note", "Note")
+                        .WithMany("CollabEntity")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repository.Entity.User", "User")
+                        .WithMany("Collaborator")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Note");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Repository.Entity.Note", b =>
                 {
                     b.HasOne("Repository.Entity.User", "User")
@@ -119,8 +163,15 @@ namespace Repository.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Repository.Entity.Note", b =>
+                {
+                    b.Navigation("CollabEntity");
+                });
+
             modelBuilder.Entity("Repository.Entity.User", b =>
                 {
+                    b.Navigation("Collaborator");
+
                     b.Navigation("Note");
                 });
 #pragma warning restore 612, 618

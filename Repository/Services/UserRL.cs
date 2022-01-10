@@ -18,8 +18,7 @@ using Microsoft.Extensions.Configuration;
 namespace Repository.Services
 {
     public class UserRL : IUserRL      //Repository logic
-    {
-        //private const string key = "fundooapplicationdone"; //for secret key generation
+    {        
         IConfiguration _config;
         readonly UserContext context;       
         public UserRL(UserContext context , IConfiguration config)
@@ -95,30 +94,11 @@ namespace Repository.Services
                     return null;
                 }
             }
-            catch(ArgumentException ex)
+            catch(Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }          
-        }
-        /// <summary>
-        /// created method to Generate Token
-        /// </summary>
-        /// <param name="EmailId"></param>
-        /// <returns></returns>
-        //private string GenerateJWTToken(string EmailId, long UserId)
-        //{
-        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        //    var claims = new[] {
-        //    new Claim(ClaimTypes.Email,EmailId),
-        //    new Claim("UserId",UserId.ToString())
-        //    };
-        //    var token = new JwtSecurityToken("Mayuri",EmailId,
-        //      claims,
-        //      expires: DateTime.Now.AddMinutes(20),
-        //      signingCredentials: credentials);
-        //    return new JwtSecurityTokenHandler().WriteToken(token);
-        //}
+        }       
         /// <summary>
         /// created method to Generate Token
         /// </summary>
@@ -180,7 +160,11 @@ namespace Repository.Services
             decryptpwd = new String(decoded_char);
             return decryptpwd;
         }
-        //To apply for forget password and get the reset token
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         public bool ForgetPassword(ForgetPasswordModel model)
         {
             User ValidLogin = this.context.UserTable.Where(X => X.EmailId == model.EmailId).FirstOrDefault();
@@ -193,6 +177,12 @@ namespace Repository.Services
             }
             return false;          
         }
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="reset">The reset.</param>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
         public bool ResetPassword(ChangePassword reset, string email)
         {
             User ValidLogin = this.context.UserTable.SingleOrDefault(x => x.EmailId == email);

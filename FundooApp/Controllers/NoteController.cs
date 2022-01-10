@@ -14,6 +14,7 @@ namespace FundooApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class NoteController : ControllerBase
     {
         INoteBL BL;
@@ -21,8 +22,12 @@ namespace FundooApp.Controllers
         {
             this.BL = BL;
         }
-        [Authorize]
-        [HttpPost]                                      //to add new note registration
+        /// <summary>
+        /// Notes the registrations.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        [HttpPost]                                      
         public IActionResult NoteRegistrations(NoteRegistration user)
         {
             try
@@ -39,12 +44,15 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.BadRequest(new { success = false, message = ex.InnerException });
+                return this.BadRequest(new { success = false, message = ex.Message, InnerException=ex.InnerException });
             }
         }
-        [Authorize]
-        [HttpGet("GetAllNoteDetails")]              //get all note registered data
-        public IActionResult GetAllUserDetails()
+        /// <summary>
+        /// Gets all note details.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]              
+        public IActionResult GetAllNoteDetails()
         {
             try
             {
@@ -66,9 +74,13 @@ namespace FundooApp.Controllers
 
         }
 
-        [Authorize]
-        [HttpGet("GetWithId/{id}")]  //To get specific note for specific NoteID
-        public IActionResult GetWithId(long id)
+        /// <summary>
+        /// Gets the with identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]  
+        public IActionResult GetNoteDetailsById(long id)
         {
             try
             {
@@ -84,9 +96,14 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
-        
-        [Authorize]
-        [HttpPut("UpdateId/{id}")]  //To update registered note 
+
+        /// <summary>
+        /// Updates the notes.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="note">The note.</param>
+        /// <returns></returns>
+        [HttpPut("{id}")]   
         public IActionResult UpdateNotes(long id, Note note)
         {
             try
@@ -104,8 +121,13 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
-        [Authorize]
-        [HttpDelete("DeleteWithId/{id}")]
+
+        /// <summary>
+        /// Deletes the notes.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
         public IActionResult DeleteNotes(long id)
         {
             try
@@ -123,14 +145,14 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+
         /// <summary>
-        /// Controller Method call method PinNote() method to Pin the note
+        /// Pins the note.
         /// </summary>
-        /// <param name="id">note id</param>
-        /// <returns>string message</returns>
-        [Authorize]
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpPut]
-        [Route("PinNote")]
+        [Route("{id}/Pin")]
         public IActionResult PinNote(int id)
         {
             try
@@ -148,15 +170,14 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
-        /// Controller Method call method ArchiveNote() method to Archive  the note
+        /// Archives the note.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        /// 
-        [Authorize]
         [HttpPut]
-        [Route("ArchiveNote")]
+        [Route("{id}/Archive")]
         public IActionResult ArchiveNote(int id)
         {
             try
@@ -174,15 +195,14 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
-        /// Controller method to Trash Or Restore a Note
+        /// Trashes the or restore note.
         /// </summary>
-        /// <param name="id">note id</param>
-        /// <returns>string message</returns>
-        /// 
-        [Authorize]
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpPut]
-        [Route("TrashOrRestoreNote")]
+        [Route("{id}/Trash")]
         public IActionResult TrashOrRestoreNote(int id)
         {
             try
@@ -200,15 +220,15 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
-        /// Controller method to add color for note
+        /// Changes the color.
         /// </summary>
-        /// <param name="id">note id</param>
-        /// <param name="color">color name</param>
+        /// <param name="NoteId">The note identifier.</param>
+        /// <param name="color">The color.</param>
         /// <returns></returns>
-        [Authorize]
         [HttpPut]
-        [Route("addColor")]
+        [Route("{NoteId}/{color}")]
         public IActionResult ChangeColor(long NoteId, string color)
         {
             try

@@ -23,10 +23,15 @@ namespace Repository.Context
         {
             get; set;
         }
-        public DbSet<CollabEntity> CollabEntityTable
+        public DbSet<Collaborator> CollabEntityTable
         {
             get; set;
         }
+        public DbSet<Lable> LableTable
+        {
+            get; set;
+        }
+
 
 
     }

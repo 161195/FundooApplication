@@ -17,6 +17,12 @@ namespace Repository.Services
         {
             this.context = context;            
         }
+        /// <summary>
+        /// Collabs the add.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="UserId">The user identifier.</param>
+        /// <returns></returns>
         public bool CollabAdd(CollaboratorModel user, long UserId)
         {
             try
@@ -25,9 +31,10 @@ namespace Repository.Services
                 var mail = this.context.UserTable.Where(x => x.EmailId == user.EmailId).SingleOrDefault();
                 if (notes != null && mail != null)
                 {
-                    CollabEntity AddCollabNote = new CollabEntity();
+                    Collaborator AddCollabNote = new Collaborator();
                     AddCollabNote.NoteId = user.NoteId;
                     AddCollabNote.EmailId = user.EmailId;
+                    AddCollabNote.UserId = UserId;
                     this.context.CollabEntityTable.Add(AddCollabNote);                                   
                 }
                 var result = this.context.SaveChanges();
@@ -46,6 +53,12 @@ namespace Repository.Services
             }
                        
         }
+        /// <summary>
+        /// Removes the collaborate.
+        /// </summary>
+        /// <param name="collaborate">The collaborate.</param>
+        /// <param name="UserId">The user identifier.</param>
+        /// <returns></returns>
         public string RemoveCollaborate(CollaboratorModel collaborate, long UserId)
         {
             try
@@ -54,7 +67,7 @@ namespace Repository.Services
                 var UserEnter = this.context.UserTable.FirstOrDefault(x => x.EmailId == collaborate.EmailId);
                 if (note != null && UserEnter.EmailId != null)
                 {
-                    CollabEntity UserRemoved = this.context.CollabEntityTable.FirstOrDefault(x => x.EmailId == collaborate.EmailId && x.NoteId == collaborate.NoteId);
+                    Collaborator UserRemoved = this.context.CollabEntityTable.FirstOrDefault(x => x.EmailId == collaborate.EmailId && x.NoteId == collaborate.NoteId);
                     if (UserRemoved != null)
                     this.context.CollabEntityTable.Remove(UserRemoved);
                     int result = this.context.SaveChanges();
@@ -74,7 +87,7 @@ namespace Repository.Services
             }
             catch (Exception ex)
             {
-                throw ex.InnerException;
+                throw;
             }
 
         }

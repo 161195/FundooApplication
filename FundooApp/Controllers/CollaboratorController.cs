@@ -20,6 +20,11 @@ namespace FundooApp.Controllers
         {
             this.BL = BL;
         }
+        /// <summary>
+        /// Collabs the register.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]                               
         public IActionResult CollabRegister(CollaboratorModel user)
@@ -43,7 +48,7 @@ namespace FundooApp.Controllers
         }
         [Authorize]
         [HttpPut]
-        [Route("RemoveUSer")]
+        [Route("Remove")]
         public IActionResult RemoveCollaborateWithUser(CollaboratorModel collaborate)
         {
             try

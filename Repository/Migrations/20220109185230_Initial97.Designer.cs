@@ -10,8 +10,8 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20220107080042_C2")]
-    partial class C2
+    [Migration("20220109185230_Initial97")]
+    partial class Initial97
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Repository.Entity.CollabEntity", b =>
+            modelBuilder.Entity("Repository.Entity.Collaborator", b =>
                 {
                     b.Property<long>("CollabsId")
                         .ValueGeneratedOnAdd()
@@ -34,7 +34,7 @@ namespace Repository.Migrations
                     b.Property<long>("NoteId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("UserId")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("CollabsId");
@@ -44,6 +44,31 @@ namespace Repository.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("CollabEntityTable");
+                });
+
+            modelBuilder.Entity("Repository.Entity.Lable", b =>
+                {
+                    b.Property<long>("LableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Lables")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("NoteId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("LableId");
+
+                    b.HasIndex("NoteId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LableTable");
                 });
 
             modelBuilder.Entity("Repository.Entity.Note", b =>
@@ -133,17 +158,38 @@ namespace Repository.Migrations
                     b.ToTable("UserTable");
                 });
 
-            modelBuilder.Entity("Repository.Entity.CollabEntity", b =>
+            modelBuilder.Entity("Repository.Entity.Collaborator", b =>
                 {
                     b.HasOne("Repository.Entity.Note", "Note")
-                        .WithMany()
+                        .WithMany("Collaborator")
                         .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Repository.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithMany("Collaborator")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Note");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repository.Entity.Lable", b =>
+                {
+                    b.HasOne("Repository.Entity.Note", "Note")
+                        .WithMany("Lable")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repository.Entity.User", "User")
+                        .WithMany("Lable")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Note");
 
@@ -161,8 +207,19 @@ namespace Repository.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Repository.Entity.Note", b =>
+                {
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("Lable");
+                });
+
             modelBuilder.Entity("Repository.Entity.User", b =>
                 {
+                    b.Navigation("Collaborator");
+
+                    b.Navigation("Lable");
+
                     b.Navigation("Note");
                 });
 #pragma warning restore 612, 618

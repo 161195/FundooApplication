@@ -8,6 +8,8 @@ namespace CommonLayer.Model
 {
     public class LabelModel
     {
+        public long NoteId { get; set; }
+        public string Lables { get; set; }
 
     }
 }

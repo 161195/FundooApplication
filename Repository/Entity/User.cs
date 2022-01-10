@@ -47,5 +47,9 @@ namespace Repository.Entity
         public DateTime? Modified { get; set; }
         //Adding ? to make field nullable 
         public ICollection<Note> Note { get; set; }
+        public ICollection<Collaborator> Collaborator { get; set; }
+        public ICollection<Lable> Lable { get; set; }
+
+
     }
 }
