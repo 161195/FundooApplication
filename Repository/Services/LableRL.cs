@@ -21,16 +21,12 @@ namespace Repository.Services
         {
             try
             {
-                var userid = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();
-                //var Lable = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();
-                if (userid != null)
-                {
-                    Lable AddLableToNote = new Lable();
-                    AddLableToNote.NoteId = user.NoteId;
-                    AddLableToNote.Lables = user.Lables;
-                    AddLableToNote.UserId = UserId;
-                    this.context.LableTable.Add(AddLableToNote);
-                }
+                //var userid = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();
+                //var Lable = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();               
+                Lable AddLableToNote = new Lable();             
+                AddLableToNote.Lables = user.Lables;
+                AddLableToNote.UserId = UserId;
+                this.context.LableTable.Add(AddLableToNote);
                 var result = this.context.SaveChanges();
                 if (result > 0)
                 {
@@ -46,6 +42,88 @@ namespace Repository.Services
                 throw;
             }
 
+        }
+        public bool UpdateLable(LabelModel user, long UserId)
+        {
+            try
+            {
+                var userid = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();
+                Lable LableEntered = this.context.LableTable.FirstOrDefault(x => x.Lables == user.Lables);         
+                if (LableEntered.NoteId == null)
+                {
+                    LableEntered.NoteId = user.NoteId;
+                    this.context.SaveChanges();
+                    return true;
+                }
+                else if (LableEntered.NoteId != null)
+                {
+                    Lable AddNewNote = new Lable();
+                    AddNewNote.Lables = user.Lables;
+                    AddNewNote.NoteId = user.NoteId;
+                    AddNewNote.UserId = UserId;
+                    this.context.LableTable.Add(AddNewNote);
+                    this.context.SaveChanges();
+                    return true;
+                }               
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        /// <summary>
+        /// Deletes the lable.
+        /// </summary>
+        /// <param name="user1">The user1.</param>
+        public bool DeleteLable(LabelModel user)
+        {
+            try
+            { 
+                List<Lable> LableN= this.context.LableTable.Where(x => x.Lables == user.Lables).ToList();
+                if(LableN!=null)
+                {
+                    foreach(var item in LableN)
+                    {
+                        this.context.LableTable.Remove(item);
+                        this.context.SaveChanges();
+                    }                  
+                    return true;
+                }                
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public bool RemoveNote(LabelModel user)
+        {
+            try
+            {
+                Lable LableN = this.context.LableTable.FirstOrDefault(x => x.Lables == user.Lables && x.NoteId==user.NoteId);
+                if (LableN.Lables!=null)
+                {
+                    this.context.LableTable.Remove(LableN);
+                    this.context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

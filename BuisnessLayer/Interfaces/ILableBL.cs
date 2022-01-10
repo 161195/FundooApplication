@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Model;
+using Repository.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace BuisnessLayer.Interfaces
     public interface ILableBL
     {
         public bool LableAdd(LabelModel user, long UserId);
+        public bool UpdateLable(LabelModel user, long UserId);
+        public bool DeleteLable(LabelModel user);
+        public bool RemoveNote(LabelModel user);
 
     }
 }
