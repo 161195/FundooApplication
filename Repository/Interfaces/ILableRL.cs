@@ -14,5 +14,6 @@ namespace Repository.Interfaces
         public bool UpdateLable(LabelModel user, long UserId);
         public bool DeleteLable(LabelModel user);
         public bool RemoveNote(LabelModel user);
+        public IEnumerable<Lable> GetLableRegistrations(LabelModel user);
     }
 }

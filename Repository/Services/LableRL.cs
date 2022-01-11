@@ -41,12 +41,11 @@ namespace Repository.Services
             {
                 throw;
             }
-
         }
         public bool UpdateLable(LabelModel user, long UserId)
         {
             try
-            {
+           {
                 var userid = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();
                 Lable LableEntered = this.context.LableTable.FirstOrDefault(x => x.Lables == user.Lables);         
                 if (LableEntered.NoteId == null)
@@ -74,7 +73,6 @@ namespace Repository.Services
             {
                 throw;
             }
-
         }
         /// <summary>
         /// Deletes the lable.
@@ -104,6 +102,11 @@ namespace Repository.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Remove note from Lable
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public bool RemoveNote(LabelModel user)
         {
             try
@@ -124,6 +127,10 @@ namespace Repository.Services
             {
                 throw;
             }
+        }
+        public IEnumerable<Lable> GetLableRegistrations(LabelModel user)
+        {
+            return this.context.LableTable.Where(i => i.Lables == user.Lables).ToList();
         }
     }
 }

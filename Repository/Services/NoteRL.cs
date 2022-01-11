@@ -1,5 +1,9 @@
-﻿using CommonLayer.Model;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Repository.Context;
 using Repository.Entity;
 using Repository.Interfaces;
@@ -11,12 +15,14 @@ using System.Threading.Tasks;
 
 namespace Repository.Services
 {
-    public class NoteRL : INoteRL
+    public class NoteRL : INoteRL      
     {
+        IConfiguration _config;
         readonly UserContext context;
-        public NoteRL(UserContext context)
+        public NoteRL(UserContext context, IConfiguration config)
         {
             this.context = context;
+            _config = config;
         }
         /// <summary>
         /// New Note Registrations for the specified userID.
@@ -240,6 +246,44 @@ namespace Repository.Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <param name="noteimage">The noteimage.</param>
+        /// <returns></returns>
+        public bool UploadImage(long noteId, IFormFile noteimage) //IFormFile transmitted files in HTTP request. 
+        {
+            try
+            {
+                var notes = this.context.NoteTable.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (notes != null)
+                {
+                    Account account = new Account //Its cloudinary account
+                    (
+                    _config["CloudinaryAccount:CloudName"],
+                    _config["CloudinaryAccount:ApiKey"],
+                    _config["CloudinaryAccount:ApiSecret"]
+                    );
+                    var path = noteimage.OpenReadStream();
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    ImageUploadParams uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(noteimage.FileName, path)
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    notes.Image = uploadResult.Url.ToString();
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

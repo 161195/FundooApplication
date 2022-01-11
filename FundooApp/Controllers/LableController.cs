@@ -123,5 +123,31 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { success = false, message = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Gets the note details by lableName.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetnotesDetailsByLableName([FromQuery] LabelModel user)
+        {
+            try
+            {
+                var lable = this.BL.GetLableRegistrations(user);
+                if(lable != null)
+                {
+                    return this.Ok(new { Success = true, message = "Note fetch Successfully from lable",data=lable});
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "Note fetch UnSuccessfully from lable" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { success = false, message = ex.InnerException });
+            }
+        }
     }
 }

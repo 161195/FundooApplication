@@ -62,6 +62,10 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        public IEnumerable<Lable> GetLableRegistrations(LabelModel user)
+        {
+            return this.LableRL.GetLableRegistrations(user);
+        }
 
     }
 }

@@ -246,33 +246,26 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        //[HttpPut]
-        //[Route("ImageUpload/")]
-        //public async Task<ActionResult> Post([FromForm] CarViewModel carVM)
-        //{
-        //    if (carVM.Image != null)
-        //    {
-        //        var a = _hostingEnv.WebRootPath;
-        //        var fileName = Path.GetFileName(carVM.Image.FileName);
-        //        var filePath = Path.Combine(_hostingEnv.WebRootPath, "images\\Cars", fileName);
+        [HttpPut]
+        [Route("uploadImage")]
+        public IActionResult UploadImage(long noteId, IFormFile image)
+        {
+            try
+            {
+                bool result = this.BL.UploadImage(noteId, image);
+                if (result.Equals(true))
+                {
+                    return this.Ok(new { Status = true, Message = "Upload Image Successfully", Data = noteId });
+                }
 
-        //        using (var fileSteam = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            await carVM.Image.CopyToAsync(fileSteam);
-        //        }
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
+            }
+        }
 
-        //        Car car = new Car();
-        //        car.CarName = carVM.CarName;
-        //        car.ImagePath = filePath;  //save the filePath to database ImagePath field.
-        //        _context.Add(car);
-        //        await _context.SaveChangesAsync();
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
 
     }
 }
