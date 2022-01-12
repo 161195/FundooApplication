@@ -28,6 +28,7 @@ namespace FundooApp.Controllers
 
         [Authorize]
         [HttpPost]
+        [Route("Register")]
         public IActionResult LableRegister(LabelModel user)
         {
             try
@@ -54,6 +55,7 @@ namespace FundooApp.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPut]
+        [Route("update")]
         public IActionResult LableUpdate(LabelModel user)
         {
             try
@@ -79,7 +81,8 @@ namespace FundooApp.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("LableName")]
+        [HttpDelete]
+        [Route("LableName")]
         public IActionResult DeletedLable1(LabelModel user)
         {
             try
@@ -104,7 +107,8 @@ namespace FundooApp.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("RemoveNote")]
+        [HttpDelete]
+        [Route("RemoveNote")]
         public IActionResult RemoveNoteFromLable(LabelModel user)
         {
             try
@@ -130,6 +134,7 @@ namespace FundooApp.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet]
+        [Route("GetNotes")]
         public IActionResult GetnotesDetailsByLableName([FromQuery] LabelModel user)
         {
             try

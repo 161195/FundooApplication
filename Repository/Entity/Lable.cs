@@ -15,15 +15,9 @@ namespace Repository.Entity
         public long LableId { get; set; }
         public string Lables { get; set; }
         public Note Note { get; set; }
-        public User User { get; set; }
-
-        //[ForeignKey("Note")]
+        public User User { get; set; }      
         public long? NoteId { get; set; }
-
         [ForeignKey("User")]
-        public long UserId { get; set; }
-       
-
-
+        public long UserId { get; set; }       
     }
 }

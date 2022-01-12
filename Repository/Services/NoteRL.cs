@@ -45,10 +45,8 @@ namespace Repository.Services
                 newNote.IsTrash = user.IsTrash;
                 newNote.CreatedAt = DateTime.Now;
                 newNote.ModifiedAt = DateTime.Now;
-
                 //adding Note data to the database Notetable 
                 this.context.NoteTable.Add(newNote);
-
                 int result = this.context.SaveChanges();
                 if (result > 0)
                 {
@@ -70,8 +68,7 @@ namespace Repository.Services
         /// <returns></returns>
         public IEnumerable<Note> GetNoteRegistrations(long UserId)
         {
-             return this.context.NoteTable.Where(i => i.UserId == UserId);
-           
+             return this.context.NoteTable.Where(i => i.UserId == UserId);         
         }
         /// <summary>
         /// Gets the note info with ID.
@@ -267,7 +264,7 @@ namespace Repository.Services
                     _config["CloudinaryAccount:ApiKey"],
                     _config["CloudinaryAccount:ApiSecret"]
                     );
-                    var path = noteimage.OpenReadStream();
+                    var path = noteimage.OpenReadStream(); //for reading uploaded file
                     Cloudinary cloudinary = new Cloudinary(account);
                     ImageUploadParams uploadParams = new ImageUploadParams()
                     {

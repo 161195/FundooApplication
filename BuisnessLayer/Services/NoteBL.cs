@@ -66,23 +66,6 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-        ///// <summary>
-        ///// Method to call GetPinnedNote method from NotesRepository 
-        ///// </summary>
-        ///// <returns>pinned note</returns>
-        //public IEnumerable<Notes> GetPinnedNote()
-        //{
-        //    try
-        //    {
-        //        IEnumerable<Notes> note = this.NotesRL.GetPinnedNote();
-        //        return note;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
-
         public string PinNote(int id)
         {
             try
@@ -92,7 +75,7 @@ namespace BuisnessLayer.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public string ArchiveNote(int id)
@@ -128,7 +111,7 @@ namespace BuisnessLayer.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public bool UploadImage(long noteId, IFormFile noteimage)
@@ -141,7 +124,6 @@ namespace BuisnessLayer.Services
             {
                 throw;
             }
-
         }
     }
 }

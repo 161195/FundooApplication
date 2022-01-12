@@ -17,12 +17,17 @@ namespace Repository.Services
         {
             this.context = context;
         }
+        /// <summary>
+        /// create lable
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public bool LableAdd(LabelModel user, long UserId)
         {
             try
-            {
-                //var userid = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();
-                //var Lable = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();               
+            {              
+                var Lable = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();               
                 Lable AddLableToNote = new Lable();             
                 AddLableToNote.Lables = user.Lables;
                 AddLableToNote.UserId = UserId;
@@ -42,6 +47,12 @@ namespace Repository.Services
                 throw;
             }
         }
+        /// <summary>
+        /// update note into lable or update more notes to that lable
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public bool UpdateLable(LabelModel user, long UserId)
         {
             try
@@ -74,6 +85,7 @@ namespace Repository.Services
                 throw;
             }
         }
+        
         /// <summary>
         /// Deletes the lable.
         /// </summary>
@@ -102,6 +114,7 @@ namespace Repository.Services
                 throw;
             }
         }
+
         /// <summary>
         /// Remove note from Lable
         /// </summary>
@@ -128,6 +141,11 @@ namespace Repository.Services
                 throw;
             }
         }
+        /// <summary>
+        /// get notes with lable name
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public IEnumerable<Lable> GetLableRegistrations(LabelModel user)
         {
             return this.context.LableTable.Where(i => i.Lables == user.Lables).ToList();

@@ -114,7 +114,7 @@ namespace FundooApp.Controllers
                     return BadRequest(new { Success = false, message = "No Notes are there with this Id" });
                 }
                 BL.UpdateNotes(updateNotes, note);
-                return Ok(new { Success = true, message = "Update Sucessful" });
+                return Ok(new { Success = true, message = "Update Sucessful",data=updateNotes});
             }
             catch (Exception)
             {
@@ -127,7 +127,8 @@ namespace FundooApp.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("{id}/Delete")]
         public IActionResult DeleteNotes(long id)
         {
             try
@@ -262,11 +263,9 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
+                return this.BadRequest(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
-
-
     }
 }
         

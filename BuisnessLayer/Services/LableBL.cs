@@ -66,6 +66,5 @@ namespace BuisnessLayer.Services
         {
             return this.LableRL.GetLableRegistrations(user);
         }
-
     }
 }
