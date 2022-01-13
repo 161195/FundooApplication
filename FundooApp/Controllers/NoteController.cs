@@ -293,9 +293,7 @@ namespace FundooApp.Controllers
                 noteDetailsList = JsonConvert.DeserializeObject<List<Note>>(serializedNotesList);
             }
             else
-            {
-                //notesList = await context.NotesTable.ToListAsync();
-                //notesList = (List<Note>)BL.GetNoteRegistrations(UserId);
+            {               
                 noteDetailsList = (IEnumerable<Note>)BL.GetNoteRegistrations(UserId);
                 serializedNotesList = JsonConvert.SerializeObject(noteDetailsList);
                 redisNotesList = Encoding.UTF8.GetBytes(serializedNotesList);
