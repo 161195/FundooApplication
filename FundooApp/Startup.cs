@@ -37,7 +37,11 @@ namespace FundooApp
             services.AddTransient<ICollaboratorRL, CollaboratorRL>();
             services.AddTransient<ILableBL, LableBL>();
             services.AddTransient<ILableRL, LableRL>();
-
+            services.AddMemoryCache();
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+            });
             services.AddDbContext<UserContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserDataBase"]));
             services.AddControllers().AddNewtonsoftJson();      
             services.AddSwaggerGen(c =>
@@ -86,6 +90,7 @@ namespace FundooApp
                     ValidateAudience = false
                 };
             });
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

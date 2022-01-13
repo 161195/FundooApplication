@@ -74,7 +74,7 @@ namespace Repository.Services
                     this.context.LableTable.Add(AddNewNote);
                     this.context.SaveChanges();
                     return true;
-                }               
+                }
                 else
                 {
                     return false;

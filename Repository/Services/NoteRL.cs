@@ -16,13 +16,14 @@ using System.Threading.Tasks;
 namespace Repository.Services
 {
     public class NoteRL : INoteRL      
-    {
+    {      
         IConfiguration _config;
         readonly UserContext context;
         public NoteRL(UserContext context, IConfiguration config)
         {
             this.context = context;
             _config = config;
+            
         }
         /// <summary>
         /// New Note Registrations for the specified userID.
@@ -272,7 +273,7 @@ namespace Repository.Services
                     };
                     var uploadResult = cloudinary.Upload(uploadParams);
                     notes.Image = uploadResult.Url.ToString();
-                    context.Entry(notes).State = EntityState.Modified;
+                    context.Entry(notes).State = EntityState.Modified; //updating that url to image column in DB 
                     context.SaveChanges();
                     return true;
                 }
