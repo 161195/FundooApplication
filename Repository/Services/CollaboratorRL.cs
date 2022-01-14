@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Model;
+using CommonLayer.Model.ResponseModel;
 using Repository.Context;
 using Repository.Entity;
 using Repository.Interfaces;
@@ -23,28 +24,36 @@ namespace Repository.Services
         /// <param name="user">The user.</param>
         /// <param name="UserId">The user identifier.</param>
         /// <returns></returns>
-        public bool CollabAdd(CollaboratorModel user, long UserId)
+        public CollaboratorResponse CollabAdd(CollaboratorModel user, long UserId)
         {
             try
             {
-                var notes = this.context.NoteTable.Where(x => x.NoteId == user.NoteId && x.UserId == UserId).SingleOrDefault();
-                var mail = this.context.UserTable.Where(x => x.EmailId == user.EmailId).SingleOrDefault();
+                var notes = this.context.NoteTable.Where(x => x.NoteId == user.NoteId && x.UserId == UserId).FirstOrDefault();
+                var mail = this.context.UserTable.Where(x => x.EmailId == user.EmailId).FirstOrDefault();
                 if (notes != null && mail != null)
                 {
                     Collaborator AddCollabNote = new Collaborator();
                     AddCollabNote.NoteId = user.NoteId;
                     AddCollabNote.EmailId = user.EmailId;
                     AddCollabNote.UserId = UserId;
-                    this.context.CollabEntityTable.Add(AddCollabNote);                                   
+                    this.context.CollabEntityTable.Add(AddCollabNote);
+                    var result = this.context.SaveChanges();
+                    Collaborator respo = this.context.CollabEntityTable.Where(x => x.EmailId == user.EmailId && x.NoteId==user.NoteId).FirstOrDefault();
+                    CollaboratorResponse response = new CollaboratorResponse();
+                    response.EmailId = respo.EmailId;
+                    response.NoteId = respo.NoteId;
+                    response.UserId = respo.UserId;
+                    response.CollabsId = respo.CollabsId;
+                    return response;
                 }
-                var result = this.context.SaveChanges();
-                if (result > 0)
-                {
-                    return true;
-                }
+                //var result = this.context.SaveChanges();
+                //if (result > 0)
+                //{
+                //    return AddCollabNote;
+                //}
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
             catch (Exception)

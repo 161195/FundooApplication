@@ -10,8 +10,8 @@ namespace Repository.Interfaces
 {
     public interface ILableRL
     {
-        public bool LableAdd(LabelModel user, long UserId);
-        public bool UpdateLable(LabelModel user, long UserId);
+        public Lable LableAdd(LabelModel user, long UserId);
+        public Lable UpdateLable(LabelModel user, long UserId);
         public bool DeleteLable(LabelModel user);
         public bool RemoveNote(LabelModel user);
         public IEnumerable<Lable> GetLableRegistrations(LabelModel user);

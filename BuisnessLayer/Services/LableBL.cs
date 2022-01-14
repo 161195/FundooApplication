@@ -17,7 +17,7 @@ namespace BuisnessLayer.Services
         {
             this.LableRL = LableRL;
         }
-        public bool LableAdd(LabelModel user, long UserId)
+        public Lable LableAdd(LabelModel user, long UserId)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-        public bool UpdateLable(LabelModel user, long UserId)
+        public Lable UpdateLable(LabelModel user, long UserId)
         {
             try
             {

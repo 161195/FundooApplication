@@ -34,9 +34,10 @@ namespace FundooApp.Controllers
             try
             {
                 var UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-                if (this.BL.LableAdd(user, UserId))
+                var result=this.BL.LableAdd(user, UserId);
+                if (result !=null)
                 {
-                    return this.Ok(new { Success = true, message = "lable added to note Successfully" });
+                    return this.Ok(new { Success = true, message = "lable added to note Successfully",data=result });
                 }
                 else
                 {
@@ -61,9 +62,10 @@ namespace FundooApp.Controllers
             try
             {
                 var UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-                if (this.BL.UpdateLable(user, UserId))
+                var result = this.BL.UpdateLable(user, UserId);
+                if(result != null)
                 {
-                    return this.Ok(new { Success = true, message = "lable added to note Successfully" });
+                    return this.Ok(new { Success = true, message = "lable added to note Successfully",data=result });
                 }
                 else
                 {

@@ -1,5 +1,7 @@
 ﻿using BuisnessLayer.Interfaces;
 using CommonLayer.Model;
+using CommonLayer.Model.ResponseModel;
+using Repository.Entity;
 using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ namespace BuisnessLayer.Services
         {
             this.CollaboratorRL = CollaboratorRL;
         }
-        public bool CollabAdd(CollaboratorModel user,long UserId)       //to register or post new Collaboration
+        public CollaboratorResponse CollabAdd(CollaboratorModel user,long UserId)       //to register or post new Collaboration
         {
             try
             {

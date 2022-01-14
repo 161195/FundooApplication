@@ -23,11 +23,11 @@ namespace Repository.Services
         /// <param name="user"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public bool LableAdd(LabelModel user, long UserId)
+        public Lable LableAdd(LabelModel user, long UserId)
         {
             try
             {              
-                var Lable = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();               
+                //var Lable = this.context.UserTable.Where(x => x.UserId == UserId).FirstOrDefault();               
                 Lable AddLableToNote = new Lable();             
                 AddLableToNote.Lables = user.Lables;
                 AddLableToNote.UserId = UserId;
@@ -35,11 +35,11 @@ namespace Repository.Services
                 var result = this.context.SaveChanges();
                 if (result > 0)
                 {
-                    return true;
+                    return AddLableToNote;
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
             catch (Exception)
@@ -53,17 +53,17 @@ namespace Repository.Services
         /// <param name="user"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public bool UpdateLable(LabelModel user, long UserId)
+        public Lable UpdateLable(LabelModel user, long UserId)
         {
             try
-           {
-                var userid = this.context.UserTable.Where(x => x.UserId == UserId).SingleOrDefault();
+            {
+                //var userid = this.context.UserTable.Where(x => x.UserId == UserId).FirstOrDefault();
                 Lable LableEntered = this.context.LableTable.FirstOrDefault(x => x.Lables == user.Lables);         
                 if (LableEntered.NoteId == null)
                 {
                     LableEntered.NoteId = user.NoteId;
                     this.context.SaveChanges();
-                    return true;
+                    return LableEntered;
                 }
                 else if (LableEntered.NoteId != null)
                 {
@@ -73,11 +73,11 @@ namespace Repository.Services
                     AddNewNote.UserId = UserId;
                     this.context.LableTable.Add(AddNewNote);
                     this.context.SaveChanges();
-                    return true;
+                    return AddNewNote;
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
             catch (Exception)

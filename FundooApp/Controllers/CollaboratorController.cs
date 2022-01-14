@@ -32,9 +32,10 @@ namespace FundooApp.Controllers
             try
             {
                 var UserId= Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-                if (this.BL.CollabAdd(user,UserId))
+                var result = this.BL.CollabAdd(user, UserId);
+                if (result!=null)
                 {
-                    return this.Ok(new { Success = true, message = "Note Collaboration Successfully" });
+                    return this.Ok(new { Success = true, message = "Note Collaboration Successfully",data=result });
                 }
                 else
                 {
