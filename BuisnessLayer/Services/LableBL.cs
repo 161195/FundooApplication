@@ -17,6 +17,12 @@ namespace BuisnessLayer.Services
         {
             this.LableRL = LableRL;
         }
+        /// <summary>
+        /// Lables the add.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="UserId">The user identifier.</param>
+        /// <returns></returns>
         public Lable LableAdd(LabelModel user, long UserId)
         {
             try
@@ -28,6 +34,12 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Updates the lable.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="UserId">The user identifier.</param>
+        /// <returns></returns>
         public Lable UpdateLable(LabelModel user, long UserId)
         {
             try
@@ -40,6 +52,11 @@ namespace BuisnessLayer.Services
             }
 
         }
+        /// <summary>
+        /// Deletes the lable.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
         public bool DeleteLable(LabelModel user)
         {
             try
@@ -51,6 +68,11 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Removes the note.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
         public bool RemoveNote(LabelModel user)
         {
             try
@@ -62,6 +84,11 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Gets the lable registrations.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
         public IEnumerable<Lable> GetLableRegistrations(LabelModel user)
         {
             return this.LableRL.GetLableRegistrations(user);

@@ -45,12 +45,7 @@ namespace Repository.Services
                     response.UserId = respo.UserId;
                     response.CollabsId = respo.CollabsId;
                     return response;
-                }
-                //var result = this.context.SaveChanges();
-                //if (result > 0)
-                //{
-                //    return AddCollabNote;
-                //}
+                }               
                 else
                 {
                     return null;

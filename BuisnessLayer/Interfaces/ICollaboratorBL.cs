@@ -11,7 +11,7 @@ namespace BuisnessLayer.Interfaces
 {
     public interface ICollaboratorBL
     {
-        public CollaboratorResponse CollabAdd(CollaboratorModel user,long UserId);
-        public string RemoveCollaborate(CollaboratorModel collaborate, long UserId);
+        public CollaboratorResponse CollabAdd(CollaboratorModel user, long UserId);//collaborate emailID 
+        public string RemoveCollaborate(CollaboratorModel collaborate, long UserId);//delete collaborator
     }
 }

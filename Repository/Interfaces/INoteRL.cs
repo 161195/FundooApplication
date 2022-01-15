@@ -15,11 +15,11 @@ namespace Repository.Interfaces
         public IEnumerable<Note> GetNoteRegistrations(long UserId);   //to get all registered notes
         public Note GetWithId(long id);  //To get specific note for specific UserID
         public void UpdateNotes(Note BeforeNote, Note AfterNote); //To update registered data
-        public void DeleteNotes(Note user1);      
-        public string PinNote(int id);    
-        public string ArchiveNote(int id);
-        public string TrashOrRestoreNote(int id);
-        public string AddColor(long NoteId, string color);
-        public bool UploadImage(long noteId, IFormFile noteimage);
+        public void DeleteNotes(Note user1);    //To delete notes  
+        public string PinNote(int id); //to pin unpin notes   
+        public string ArchiveNote(int id); //to archive unarchive notes
+        public string TrashOrRestoreNote(int id); //to trash untrash notes
+        public string AddColor(long NoteId, string color);//to color notes
+        public bool UploadImage(long noteId, IFormFile noteimage); //Add image to notes
     }
 }

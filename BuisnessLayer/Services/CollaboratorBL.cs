@@ -18,6 +18,12 @@ namespace BuisnessLayer.Services
         {
             this.CollaboratorRL = CollaboratorRL;
         }
+        /// <summary>
+        /// Collabs the add.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="UserId">The user identifier.</param>
+        /// <returns></returns>
         public CollaboratorResponse CollabAdd(CollaboratorModel user,long UserId)       //to register or post new Collaboration
         {
             try
@@ -29,6 +35,12 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Removes the collaborate.
+        /// </summary>
+        /// <param name="collaborate">The collaborate.</param>
+        /// <param name="UserId">The user identifier.</param>
+        /// <returns></returns>
         public string RemoveCollaborate(CollaboratorModel collaborate, long UserId)
         {
             try
@@ -37,7 +49,7 @@ namespace BuisnessLayer.Services
             }
             catch (Exception e)
             {
-                throw e.InnerException;
+                throw;
             }
 
         }

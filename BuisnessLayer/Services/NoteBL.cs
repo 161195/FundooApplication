@@ -18,6 +18,12 @@ namespace BuisnessLayer.Services
         {
             this.NoteRL = noteRL;
         }
+        /// <summary>
+        /// Registrations the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="UserId">The user identifier.</param>
+        /// <returns></returns>
         public bool Registration(NoteRegistration user, long UserId)
         {
             try
@@ -29,10 +35,20 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Gets the note registrations.
+        /// </summary>
+        /// <param name="UserId">The user identifier.</param>
+        /// <returns></returns>
         public IEnumerable<Note> GetNoteRegistrations(long UserId)
         {
             return this.NoteRL.GetNoteRegistrations(UserId);
         }
+        /// <summary>
+        /// Gets the with identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public Note GetWithId(long id)
         {
             try
@@ -44,6 +60,11 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Updates the notes.
+        /// </summary>
+        /// <param name="BeforeNote">The before note.</param>
+        /// <param name="AfterNote">The after note.</param>
         public void UpdateNotes(Note BeforeNote, Note AfterNote)
         {
             try
@@ -54,7 +75,11 @@ namespace BuisnessLayer.Services
             {
                 throw;
             }
-        }      
+        }
+        /// <summary>
+        /// Deletes the notes.
+        /// </summary>
+        /// <param name="user1">The user1.</param>
         public void DeleteNotes(Note user1)
         {
             try
@@ -66,6 +91,11 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Pins the note.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public string PinNote(int id)
         {
             try
@@ -78,6 +108,12 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Archives the note.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception"></exception>
         public string ArchiveNote(int id)
         {
             try
@@ -90,6 +126,12 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        /// <summary>
+        /// Trashes the or restore note.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception"></exception>
         public string TrashOrRestoreNote(int id)
         {
             try
@@ -102,6 +144,12 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        /// <summary>
+        /// Adds the color.
+        /// </summary>
+        /// <param name="NoteId">The note identifier.</param>
+        /// <param name="color">The color.</param>
+        /// <returns></returns>
         public string AddColor(long NoteId, string color)
         {
             try
@@ -114,6 +162,12 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <param name="noteimage">The noteimage.</param>
+        /// <returns></returns>
         public bool UploadImage(long noteId, IFormFile noteimage)
         {
             try

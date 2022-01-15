@@ -260,6 +260,12 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <param name="image">The image.</param>
+        /// <returns></returns>
         [HttpPut]
         [Route("uploadImage")]
         public IActionResult UploadImage(long noteId, IFormFile image)
@@ -279,6 +285,10 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Gets all notes using redis cache.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("redis")]
         public async Task<IActionResult> GetAllNotesUsingRedisCache()
         {

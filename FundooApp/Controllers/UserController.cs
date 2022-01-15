@@ -2,8 +2,12 @@
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Repository.Context;
 using Repository.Entity;
 using System;
 using System.Collections.Generic;
@@ -11,6 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooApp.Controllers
 {
@@ -19,10 +24,17 @@ namespace FundooApp.Controllers
 
     public class UserController : ControllerBase
     {
+        private readonly IMemoryCache memoryCache;
+        private readonly UserContext context;
+        private readonly IDistributedCache distributedCache;
         IUserBL BL;
-        public UserController(IUserBL BL)
+        public UserController(IUserBL BL, IMemoryCache memoryCache, UserContext context, IDistributedCache distributedCache)
         {
             this.BL = BL;
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+            this.context = context;
+
         }
         [HttpPost]                                      //to add new registration
         public IActionResult UserRegistration(UserRegistration user)
@@ -141,7 +153,34 @@ namespace FundooApp.Controllers
                 return BadRequest(new { Success = false, message = "NewPassword does not matches with ConfirmPassword" });
             }          
         }
-        
-        
+        /// <summary>
+        /// Gets all users using redis cache.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetUserRegistrationsRedisCache()
+        {
+            var cacheKey = "UserDetailsList";
+            string serializedNotesList;
+            IEnumerable<User> UserDetailsList = new List<User>();        
+            var redisUserList = await distributedCache.GetAsync(cacheKey);
+            if (redisUserList != null)
+            {
+                serializedNotesList = Encoding.UTF8.GetString(redisUserList);
+                UserDetailsList = JsonConvert.DeserializeObject<List<User>>(serializedNotesList);
+            }
+            else
+            {
+                UserDetailsList = (IEnumerable<User>)BL.GetUserRegistrations();
+                serializedNotesList = JsonConvert.SerializeObject(UserDetailsList);
+                redisUserList = Encoding.UTF8.GetBytes(serializedNotesList);
+                var options = new DistributedCacheEntryOptions()
+                 .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                 .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisUserList, options);
+            }
+            return Ok(UserDetailsList);                    
+        }
     }
 }
