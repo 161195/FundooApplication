@@ -93,11 +93,11 @@ namespace FundooApp.Controllers
             try
             {
                 LoginResponse result = this.BL.GetLogin(user1);
-                if (result.EmailId == null)
+                if (result== null)
                 {
                     return BadRequest(new { Success = false, message = "Email or Password Not Found" });
                 }
-                return Ok(new { Success = true, message = "Login Successful", UserLoginInfo = result });
+                return Ok(new { Success = true, message = "Login Successful",result });
             }
             catch (Exception e)
             {

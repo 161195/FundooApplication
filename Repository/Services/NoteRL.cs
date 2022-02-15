@@ -30,33 +30,36 @@ namespace Repository.Services
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns></returns>
-        public bool Registration(NoteRegistration user,long UserId)
+        public NoteRegistration Registration(NotesModel model,long UserId)
         {
             try
             {
-                Note newNote = new Note();
+                Note note = new()
+                {
+                    NoteId = model.NoteId,
+                    Title = model.Title,
+                    Message = model.Message,
+                    CreatedAt = model.CreatedAt,
+                    UserId =UserId
+                 
+                };
+                this.context.Add(note);
+                this.context.SaveChanges();
+
+                NoteRegistration newNote = new NoteRegistration();
                 newNote.UserId = UserId;
-                newNote.Title = user.Title;
-                newNote.Message = user.Message;
-                newNote.Reminder = user.Reminder;
-                newNote.Color = user.Color;
-                newNote.Image = user.Image;
-                newNote.IsArchive = user.IsArchive;
-                newNote.IsPin = user.IsPin;
-                newNote.IsTrash = user.IsTrash;
+                newNote.Title = note.Title;
+                newNote.Message = note.Message;
+                newNote.Reminder = note.Reminder;
+                newNote.Color = note.Color;
+                newNote.Image = note.Image;
+                newNote.IsArchive = note.IsArchive;
+                newNote.IsPin = note.IsPin;
+                newNote.IsTrash = note.IsTrash;
                 newNote.CreatedAt = DateTime.Now;
                 newNote.ModifiedAt = DateTime.Now;
                 //adding Note data to the database Notetable 
-                this.context.NoteTable.Add(newNote);
-                int result = this.context.SaveChanges();
-                if (result > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return newNote;
             }
             catch (Exception ex)
             {
@@ -198,7 +201,7 @@ namespace Repository.Services
                         note.IsTrash = true;
                         this.context.Entry(note).State = EntityState.Modified;
                         this.context.SaveChanges();
-                        message = "Note Restored";
+                        message = "Note Trashed";
                         return message;
                     }
                     if (note.IsTrash == true)
@@ -206,7 +209,7 @@ namespace Repository.Services
                         note.IsTrash = false;
                         this.context.Entry(note).State = EntityState.Modified;
                         this.context.SaveChanges();
-                        message = "Note Trashed";
+                        message = "Note Restored";
                         return message;
                     }
                 }
@@ -224,22 +227,20 @@ namespace Repository.Services
         /// <param name="id">note id</param>
         /// <param name="color">color name</param>
         /// <returns>string message</returns>
-        public string AddColor(long NoteId, string color)
+        public Note AddColor(long NoteId, ColorModel model)
         {
             try
             {
-                string message;
-                var note = this.context.NoteTable.Find(NoteId);
+               // colorModel message;
+                var note = this.context.NoteTable.FirstOrDefault (x=> x.NoteId==NoteId);
                 if (note != null)
                 {
-                    note.Color = color;
-                    this.context.Entry(note).State = EntityState.Modified;
+                    note.Color = model.Color;
                     this.context.SaveChanges();
-                    message = "Color added Successfully for note !";
-                    return message;
+                    return note;
                 }
 
-                return message = "Error While adding color for this note";
+                return null;
             }
             catch (Exception ex)
             {

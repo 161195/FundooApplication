@@ -84,9 +84,7 @@ namespace Repository.Services
                 {                               
                     LoginResponse loginRespo = new LoginResponse();
                     string token = GenerateJWTToken(ValidLogin.EmailId,ValidLogin.UserId);                   
-                    loginRespo.UserId = ValidLogin.UserId;
-                    loginRespo.EmailId = ValidLogin.EmailId;
-                    loginRespo.token = token;
+                    loginRespo.jwtToken = token;
                     return loginRespo;
                 }
                 else
@@ -117,7 +115,7 @@ namespace Repository.Services
                         new Claim(ClaimTypes.Email, EmailId),
                         new Claim("UserId",UserId.ToString())
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(20),
+                    Expires = DateTime.UtcNow.AddMinutes(30),
                     SigningCredentials = new SigningCredentials(loginTokenKey, SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = loginTokenHandler.CreateToken(loginTokenDescriptor);

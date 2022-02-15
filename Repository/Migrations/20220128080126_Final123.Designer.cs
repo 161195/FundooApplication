@@ -10,8 +10,8 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20220109185230_Initial97")]
-    partial class Initial97
+    [Migration("20220128080126_Final123")]
+    partial class Final123
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,7 +56,7 @@ namespace Repository.Migrations
                     b.Property<string>("Lables")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("NoteId")
+                    b.Property<long?>("NoteId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("UserId")
@@ -79,14 +79,12 @@ namespace Repository.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Color")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsArchive")
@@ -99,18 +97,15 @@ namespace Repository.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("Reminder")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("UserId")
@@ -181,9 +176,7 @@ namespace Repository.Migrations
                 {
                     b.HasOne("Repository.Entity.Note", "Note")
                         .WithMany("Lable")
-                        .HasForeignKey("NoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("NoteId");
 
                     b.HasOne("Repository.Entity.User", "User")
                         .WithMany("Lable")

@@ -24,11 +24,11 @@ namespace BuisnessLayer.Services
         /// <param name="user">The user.</param>
         /// <param name="UserId">The user identifier.</param>
         /// <returns></returns>
-        public bool Registration(NoteRegistration user, long UserId)
+        public NoteRegistration Registration(NotesModel model, long UserId)
         {
             try
             {
-                return this.NoteRL.Registration(user,UserId);
+                return this.NoteRL.Registration(model, UserId);
             }
             catch (Exception ex)
             {
@@ -150,12 +150,12 @@ namespace BuisnessLayer.Services
         /// <param name="NoteId">The note identifier.</param>
         /// <param name="color">The color.</param>
         /// <returns></returns>
-        public string AddColor(long NoteId, string color)
+        public Note AddColor(long NoteId, ColorModel model)
         {
             try
             {
-                string message = this.NoteRL.AddColor(NoteId, color);
-                return message;
+               return this.NoteRL.AddColor(NoteId, model);
+               
             }
             catch (Exception ex)
             {

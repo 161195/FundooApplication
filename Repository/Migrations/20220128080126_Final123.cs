@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Repository.Migrations
 {
-    public partial class Initial95 : Migration
+    public partial class Final123 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,11 +31,11 @@ namespace Repository.Migrations
                 {
                     NoteId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Reminder = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Reminder = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsArchive = table.Column<bool>(type: "bit", nullable: false),
                     IsPin = table.Column<bool>(type: "bit", nullable: false),
                     IsTrash = table.Column<bool>(type: "bit", nullable: false),
@@ -81,6 +81,33 @@ namespace Repository.Migrations
                         onDelete: ReferentialAction.NoAction);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "LableTable",
+                columns: table => new
+                {
+                    LableId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Lables = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NoteId = table.Column<long>(type: "bigint", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LableTable", x => x.LableId);
+                    table.ForeignKey(
+                        name: "FK_LableTable_NoteTable_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "NoteTable",
+                        principalColumn: "NoteId",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_LableTable_UserTable_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserTable",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CollabEntityTable_NoteId",
                 table: "CollabEntityTable",
@@ -89,6 +116,16 @@ namespace Repository.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_CollabEntityTable_UserId",
                 table: "CollabEntityTable",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LableTable_NoteId",
+                table: "LableTable",
+                column: "NoteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LableTable_UserId",
+                table: "LableTable",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -101,6 +138,9 @@ namespace Repository.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CollabEntityTable");
+
+            migrationBuilder.DropTable(
+                name: "LableTable");
 
             migrationBuilder.DropTable(
                 name: "NoteTable");

@@ -40,9 +40,9 @@ namespace CommonLayer.Model
             // mail sending code smtp 
             string mailReceiver = GetEmailFromToken(token).ToString();
             MailMessage message = new MailMessage("mayuritesting0123@gmail.com", mailReceiver);
-            string bodymessage = "For reset click here <a href='https://localhost:44317/api/User/GetAllUserDetails'> click me</a>" +
-                "You can copy the token Provided here to reset your password :  " + token;
-            message.Subject = "Sending Email Using Asp.Net & C#";
+            string bodymessage = $"<a href=http://localhost:4200/resetPassword/{token} click me</a>" + "Token-> : " + token;
+            ;
+            message.Subject = "Sending Email Using Asp.Net & C#";     
             message.Body = bodymessage;
             message.BodyEncoding = Encoding.UTF8;
             message.IsBodyHtml = true;

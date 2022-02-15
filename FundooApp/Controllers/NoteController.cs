@@ -41,14 +41,15 @@ namespace FundooApp.Controllers
         /// <param name="user">The user.</param>
         /// <returns></returns>
         [HttpPost]                                      
-        public IActionResult NoteRegistrations(NoteRegistration user)
+        public IActionResult NoteRegistrations(NotesModel model)
         {
             try
             {
                 long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-                if (this.BL.Registration(user,UserId))
+                NoteRegistration result = this.BL.Registration(model, UserId);
+                if (result!=null)
                 {
-                    return this.Ok(new { Success = true, message = "Note added Successfully" });
+                    return this.Ok(new { Success = true, message = "Note added Successfully",result});
                 }
                 else
                 {
@@ -141,7 +142,7 @@ namespace FundooApp.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("{id}/Delete")]
+        [Route("{id}")]
         public IActionResult DeleteNotes(long id)
         {
             try
@@ -242,18 +243,18 @@ namespace FundooApp.Controllers
         /// <param name="color">The color.</param>
         /// <returns></returns>
         [HttpPut]
-        [Route("{NoteId}/{color}")]
-        public IActionResult ChangeColor(long NoteId, string color)
+        [Route("{NoteId}/color")]
+        public IActionResult ChangeColor(long NoteId, ColorModel model)
         {
             try
             {
-                var message = this.BL.AddColor(NoteId, color);
-                if (message.Equals("New Color has set to this note !"))
+                Note message = this.BL.AddColor(NoteId, model);
+                if (message !=null)
                 {
-                    return this.Ok(new { Status = true, Message = message, Data = color});
+                    return this.Ok(new { Status = true, Message = "Color added to Note", data= message});
                 }
 
-                return this.BadRequest(new { Status = true, Message = message });
+                return this.BadRequest(new { Status = false, Message = "Color is not Added" });
             }
             catch (Exception ex)
             {
